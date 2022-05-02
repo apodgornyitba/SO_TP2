@@ -212,6 +212,51 @@ ticks:
     pop rsi
     pop rdi
     leave
+
+;malloc - realiza la alocacion de memoria
+malloc:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 9
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+
+;free - libera la memoria
+free:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 10
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+
+;printMM - imprime el estado de la memoria
+printMM:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 11
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
     
 ret;opCodeExc - Programa de prueba para excepcion de operacion invalido     
 opCodeExc:

@@ -15,5 +15,6 @@ void opCodeExc();
 int writeAtPos(int fd, char *buffer, int length,int x, int y);
 int ticks();
 
+//FALTA DEFINIR EN C LAS SYSCALLS NUEVAS
 
 #endif

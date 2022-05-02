@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include <stdint.h>
 #include <lib.h>
 #include <rtc.h>
@@ -7,6 +9,7 @@
 #include <kbDriver.h>
 #include <font.h>
 #include <time.h>
+#include <memoryManager.h>
 
 #define STDIN 0
 #define STDOUT 1
@@ -103,4 +106,19 @@ uint64_t sysSeparateScreen(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8
 
 uint64_t sysTicks(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
      return ticks_elapsed();
+}
+
+uint64_t sysMalloc (uint64_t nbytes, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
+     malloc(nbytes);
+     return 0;
+}
+
+uint64_t sysFree (uint64_t ap, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
+    free(ap);
+     return 0;
+}
+
+uint64_t sysPrintMM (uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
+    void printMemState();
+     return 0;
 }
