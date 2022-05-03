@@ -41,6 +41,9 @@ void shellMain(char *command, char *param, int * esc){
         else if (strcmp(command,"GAMES")==0){
             initGames();
         }
+        else if (strcmp(command,"PRINTMM")==0){
+            printMM();
+        }
         else if (strcmp(command, "EXIT") == 0){
             *esc = 1;
             return;
@@ -87,6 +90,7 @@ void getHelp() {
     printf("~ DIVEX: Para lanzar una excepcion por division por cero.\n");
     printf("~ OPEX: Para lanzar una excepcion por operador de codigo invalido.\n");
     printf("~ GAMES: Juegos disponibles - Ahorcado y Sudoku. Pulsar la tecla \"e\" para salir de los juegos.\n");
+    printf("~ PRINTMM: Imprime memoria total, libre y ocupada.\n");
     printf("~ EXIT: Abortar la ejecucion.\n");
 }
 

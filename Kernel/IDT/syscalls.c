@@ -119,6 +119,6 @@ uint64_t sysFree (uint64_t ap, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t
 }
 
 uint64_t sysPrintMM (uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
-    void printMemState();
-     return 0;
+    printMemState();
+    return 0;
 }

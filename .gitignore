@@ -2,6 +2,11 @@
 *.d
 
 # Object files
+Kernel/*.o
+Kernel/drivers/*.o
+Kernel/IDT/*.o
+Kernel/memory_manager/*.o
+Userland/*.o
 *.o
 *.ko
 *.obj

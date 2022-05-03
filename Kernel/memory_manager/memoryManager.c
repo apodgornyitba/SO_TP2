@@ -140,15 +140,18 @@ void printMemState()
       char buffer[20];
       sysWrite(2, (uint64_t) "Total Mem: ", 11, 0, 0);
       intToHexa( totalUnits * sizeof(Header), buffer, 8);
+      // intToHexa( 1234567898765, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 
       sysWrite(2, (uint64_t) "Used Mem: ", 10, 0, 0);
+      // intToHexa( 5678987654321, buffer, 8);
       intToHexa( (totalUnits * sizeof(Header)) - fbr, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 
       sysWrite(2, (uint64_t) "Free Mem: ", 10, 0, 0);
+      // intToHexa( 14725836963852, buffer, 8);
       intToHexa( fbr, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
