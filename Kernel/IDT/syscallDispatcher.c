@@ -13,9 +13,9 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysDateTime,   //5
     sysSeparateScreen, //6  
     sysWriteAtPos, //7
-    sysTicks //8
-    sysMalloc //9
-    sysFree //10
+    sysTicks, //8
+    sysMalloc, //9
+    sysFree, //10
     sysPrintMM //11
     };
 

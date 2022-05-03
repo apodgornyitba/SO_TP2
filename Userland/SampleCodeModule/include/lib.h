@@ -14,6 +14,9 @@ void separateScreen();
 void opCodeExc();
 int writeAtPos(int fd, char *buffer, int length,int x, int y);
 int ticks();
+void *malloc(unsigned long nbytes);
+void free(unsigned long ap);
+void printMemState();
 
 //FALTA DEFINIR EN C LAS SYSCALLS NUEVAS
 

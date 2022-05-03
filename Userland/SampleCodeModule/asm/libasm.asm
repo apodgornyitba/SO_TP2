@@ -8,6 +8,9 @@ GLOBAL separateScreen
 GLOBAL opCodeExc
 GLOBAL writeAtPos
 GLOBAL ticks
+GLOBAL malloc
+GLOBAL free
+GLOBAL printMM
 
 ; read - lee de un fd determinado
 ; IN- RDI - FD
