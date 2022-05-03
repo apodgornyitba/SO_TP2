@@ -1,6 +1,16 @@
 # Prerequisites
 *.d
 
+#Compiler outputs
+Bootloader/BMFS/*.bin
+Bootloader/Pure64/*.sys
+Kernel/*.bin
+Userland/*.bin
+Image/*.bin
+Image/*.img
+Image/*.qcow2
+Image/*.vmdk
+
 # Object files
 Kernel/*.o
 Kernel/drivers/*.o
