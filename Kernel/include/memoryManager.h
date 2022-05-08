@@ -10,7 +10,7 @@
 
 void memInit(char *memBase, unsigned long memSize);
 void * malloc(unsigned long nbytes);
-void free(uint64_t ap);
+void free(void* ap);
 void printMemState();
 
 #endif

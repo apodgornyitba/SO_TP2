@@ -1,4 +1,4 @@
-// #ifdef FREE_MM
+#ifdef FREE_MM
 
 // LAS FUNCIONES SON BASADAS DEL LIBRO (EL LENGUJAE DE PROGRAMACION C DE K&R)
 
@@ -6,7 +6,6 @@
 
 #define NULL 0
 #define NALLOC 1024 /* minimo # de unidades por requerir */
-//#define sizeof(type) (char *)(&type+1)-(char*)(&type)
 
 typedef long Align;     /* para alineamiento al limite mayor */
 typedef union header Header;
@@ -29,15 +28,12 @@ unsigned long fbr = 0;
 
 void memInit(char *memBase, unsigned long memSize)
 {
-      // Initially its all a very large block
       totalUnits = (memSize + sizeof(Header) - 1) / sizeof(Header) + 1;
       freep = base = (Header *)memBase;
       freep->s.size = totalUnits;
       freep->s.ptr = freep;
       fbr = freep->s.size;  //cuando toda la memoria esta libre
 }
-
-
 
 /* malloc: asignador de almacenamiento de proposito general */
 void *malloc(unsigned long nbytes)
@@ -46,16 +42,10 @@ void *malloc(unsigned long nbytes)
             return NULL;
 
       Header *p, *prevp;
-      prevp= freep;
-      // Header *morecore(unsigned);
+      prevp = freep;
       unsigned long nunits;
 
       nunits = (nbytes + sizeof(Header) - 1)/sizeof(Header) + 1;
-      // if ((prevp = freep) == NULL)       /* no hay lista libre aun */
-      // { 
-      //       base.s.ptr = freep = prevp = &base;
-      //       base.s.size = 0;
-      // }
       for (p = prevp->s.ptr;; prevp = p, p = p->s.ptr)
       {
             if (p->s.size >= nunits)
@@ -71,33 +61,15 @@ void *malloc(unsigned long nbytes)
                   freep = prevp;
                   return (void *)(p + 1);
             }
-            if (p == freep)    /* dio la vuelta a !a lista libre */
-                  /*if ((p = morecore(nunits)) = = NULL)*/
-                        return NULL; /* nada libre */
+            if (p == freep)    /* dio la vuelta a la lista libre */
+                  return NULL; /* nada libre */
                         
       }
       fbr -= p->s.size;
 }
 
-/* morecore: solicita mas memoria al sistema */
-// static Header *morecore(unsigned nu)
-// {
-//       char *cp, *sbrk(int);
-//       Header *up;
-      
-//       if (nu < NALLOC)
-//             nu = NALLOC;
-//       cp = sbrk(nu * sizeof(Header));
-//       if (cp == (char *) -1) /* no hay nada de espacio */
-//             return NULL;
-//       up = (Header *)cp;
-//       up->s.size = nu;
-//       free((void *)(up + 1));
-//       return freep;
-// }
-
 /* free: coloca el bloque ap en la lista vacia */
-void free(uint64_t ap)
+void free(void* ap)
 {
 
     if (ap == NULL || (((long)ap - (long)base) % sizeof(Header)) != 0)
@@ -140,21 +112,18 @@ void printMemState()
       char buffer[20];
       sysWrite(2, (uint64_t) "Total Mem: ", 11, 0, 0);
       intToHexa( totalUnits * sizeof(Header), buffer, 8);
-      // intToHexa( 1234567898765, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 
       sysWrite(2, (uint64_t) "Used Mem: ", 10, 0, 0);
-      // intToHexa( 5678987654321, buffer, 8);
       intToHexa( (totalUnits * sizeof(Header)) - fbr, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 
       sysWrite(2, (uint64_t) "Free Mem: ", 10, 0, 0);
-      // intToHexa( 14725836963852, buffer, 8);
       intToHexa( fbr, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 }
 
-// #endif
+#endif

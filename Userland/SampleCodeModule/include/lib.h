@@ -18,6 +18,4 @@ void *malloc(unsigned long nbytes);
 void free(unsigned long ap);
 void printMM();
 
-//FALTA DEFINIR EN C LAS SYSCALLS NUEVAS
-
 #endif
