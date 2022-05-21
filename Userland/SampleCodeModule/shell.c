@@ -4,6 +4,8 @@
 #include <lib.h>
 #include <libc.h>
 #include <games.h>
+#include "tests.h"
+
 
 static const char *registers[] = {"RAX:", "RBX:", "RCX:", "RDX:", "RBP:", "RDI:", "RSI:", "R8 :", "R9 :", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:"};
 
@@ -18,8 +20,8 @@ void initialize() {
     scClear();
     printf("Que modulo desea correr? Para conocer los comandos habilitados, escriba HELP \n");
 }
-
-void shellMain(char *command, char *param, int * esc){
+//QUE TANTOS COMANOD DEL TP HACE FALTA MOSTRAR --> LOS REVISAN?
+void shellMain(char *command, char *param, int * esc) {
         if (strcmp(command,"HELP") == 0)
             getHelp();
         else if (strcmp(command,"DATETIME")==0)
@@ -41,8 +43,12 @@ void shellMain(char *command, char *param, int * esc){
         else if (strcmp(command,"GAMES")==0){
             initGames();
         }
+        //QUE COMANDOS DEBEN ESTAR HABILITADOS PARA QUE EL USUARIO HAGA DESDE LA SHELL
         else if (strcmp(command,"PRINTMM")==0){
             printMM();
+        }
+        else if(strcmp(command, "TESTMM")){
+            test_mm();
         }
         else if (strcmp(command, "EXIT") == 0){
             *esc = 1;

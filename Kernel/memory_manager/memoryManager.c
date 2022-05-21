@@ -1,4 +1,4 @@
-#ifdef FREE_MM
+// #ifdef FREE_MM
 
 // LAS FUNCIONES SON BASADAS DEL LIBRO (EL LENGUJAE DE PROGRAMACION C DE K&R)
 
@@ -126,4 +126,4 @@ void printMemState()
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 }
 
-#endif
+// #endif

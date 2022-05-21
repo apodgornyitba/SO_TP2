@@ -1,9 +1,9 @@
-#ifdef BUDDY_MM
-
+//#ifdef BUDDY_MM
 // LINK DE APOYO: https://github.com/evanw/buddy-malloc/blob/master/buddy-malloc.c
 
 #include <memoryManager.h>
 #include <stdint.h>
+#include <inttypes.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -14,15 +14,15 @@
 #define BUCKET_COUNT (MAX_ALLOC_LOG2 - MIN_ALLOC_LOG2 + 1) //Allocations are done in powers of two starting from MIN_ALLOC and ending at MAX_ALLOC inclusive.
 
 typedef struct list_t {
-      unit8_t bucket;
-      unit8_t free;
+      unsigned int bucket;
+      unsigned int free;
       struct list_t *prev, *next;
 } list_t;
 
 static list_t buckets[BUCKET_COUNT];
 static size_t bucket_limit;
 static list_t *base;
-static unit8_t buckets_amount;
+static unsigned int buckets_amount;
 static unsigned long used_memory = 0;
 
 static void list_init(list_t *list) {
@@ -53,7 +53,7 @@ static list_t *list_pop(list_t *list) {
   return back;
 }
 
-int is_empty(List *list)
+int is_empty(list_t *list)
 {
     return list->prev == list;
 }
@@ -83,7 +83,7 @@ static size_t getIdealBucket(size_t request) {
 static int getAvailableBucket(uint8_t minBucketRequired) {
   uint8_t availableBucket;
 
-  for (availableBucket = minBucketRequired; availableBucket < buckets_amount && listIsEmpty(&buckets[availableBucket]); availableBucket++)
+  for (availableBucket = minBucketRequired; availableBucket < buckets_amount && is_empty(&buckets[availableBucket]); availableBucket++)
     ;
 
   if (availableBucket > buckets_amount) {
@@ -98,7 +98,7 @@ static list_t *getBuddy(list_t *node) {
   uintptr_t currentOffset = (uintptr_t)node - (uintptr_t)base;
   uintptr_t newOffset = currentOffset ^ (1 << (MIN_ALLOC_LOG2 + bucket));
 
-  return (list_t *)((uintptr_t)base_ptr + nodeNewOffset);
+  return (list_t *)((uintptr_t)base + newOffset);
 }
 
 static list_t *getAddress(list_t *node) {
@@ -122,8 +122,8 @@ void memInit(char *memBase, unsigned long memSize) {
 
   buckets_amount = (int)log2(memSize) - MIN_ALLOC_LOG2 + 1;
 
-  if (buckets_amount > MAX_BUCKET_COUNT) {
-    buckets_amount = MAX_BUCKET_COUNT;
+  if (buckets_amount > BUCKET_COUNT) {
+    buckets_amount = BUCKET_COUNT;
   }
 
   for (int i = 0; i < buckets_amount; i++) {
@@ -132,7 +132,7 @@ void memInit(char *memBase, unsigned long memSize) {
     buckets[i].bucket = i;
   }
 
-  addNodeToBucket(&buckets[buckets_amount - 1], base_ptr, buckets_amount - 1);
+  addNodeToBucket(&buckets[buckets_amount - 1], base, buckets_amount - 1);
 }
 
 void *malloc(unsigned long nbytes) {
@@ -168,7 +168,7 @@ void free(void *block) {
     return;
   }
 
-  //Agregar un used_memory -= cantidad de memoria liberada
+  //PREGUNTAR: Agregar un used_memory -= cantidad de memoria liberada
 
   list_t *freeNode = (list_t *)block - 1;
 
@@ -205,5 +205,4 @@ void printMemState()
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 }
 
-
-#endif
+//#endif
