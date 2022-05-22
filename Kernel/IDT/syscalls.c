@@ -123,7 +123,8 @@ uint64_t sysPrintMM (uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint
     return 0;
 }
 
-/*
+//MODIFICAR LOS NOMBRES ?--> ARREGLAR EL PASAJE DE PARAMETROS
+
 int64_t my_getpid(){
   return 0;
 }
@@ -171,4 +172,3 @@ int64_t my_yield(){
 int64_t my_wait(int64_t pid){
   return 0;
 }
-*/

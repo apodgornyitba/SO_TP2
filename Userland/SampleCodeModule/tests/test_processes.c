@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include "test_util.h"
-#include "syscall.h"
+#include "lib.h"
+//#include "libc.h"
+
+//?--> reemplazar satoi por variable maxima
 
 enum State {RUNNING, BLOCKED, KILLED};
 

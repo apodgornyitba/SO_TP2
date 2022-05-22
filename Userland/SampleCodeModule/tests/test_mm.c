@@ -3,8 +3,10 @@
 #include <string.h>
 #include "test_util.h"
 #include "lib.h"
+//#include "libc.h" ?--> SE PUEDE USAR LA LIBRERIA O HAY QUE USAR NUESTRA IMPLEMENTACION
 
 #define MAX_BLOCKS 128
+//#define MAX_MEMORY (32 * 1024 * 1024) ?--> CAMBIAR EL SATOI POR LA VARIABLE
 
 typedef struct MM_rq{
   void *address;

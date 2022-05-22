@@ -17,6 +17,8 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysMalloc, //9
     sysFree, //10
     sysPrintMM //11
+
+    //AREGAR LAS SYSCALLS QUE FALTAN
     };
 
 uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)

@@ -5,7 +5,11 @@
 
 int main() {
 
+    //?--> HAY QUE CAMBIAR EL HANDLER?
     handler();
+
+    /*char *argv[] = {"Shell"};
+    my_create_process(startShell, 1, argv, FOREGROUND, NULL);*/
     
 	return 0;
 }

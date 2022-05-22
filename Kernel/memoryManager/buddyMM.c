@@ -1,4 +1,4 @@
-//#ifdef BUDDY_MM
+#ifdef BUDDY_MM
 // LINK DE APOYO: https://github.com/evanw/buddy-malloc/blob/master/buddy-malloc.c
 
 #include <memoryManager.h>
@@ -205,4 +205,4 @@ void printMemState()
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
 }
 
-//#endif
+#endif

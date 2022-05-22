@@ -6,6 +6,7 @@
 #include <games.h>
 #include "tests.h"
 
+//?--> CAMBIARON TODA LA IMPLEMENTACION PARA QUE SE HAGA CON PROCESOS (PIPES Y SEMAFOROS)
 
 static const char *registers[] = {"RAX:", "RBX:", "RCX:", "RDX:", "RBP:", "RDI:", "RSI:", "R8 :", "R9 :", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:"};
 
@@ -20,7 +21,8 @@ void initialize() {
     scClear();
     printf("Que modulo desea correr? Para conocer los comandos habilitados, escriba HELP \n");
 }
-//QUE TANTOS COMANOD DEL TP HACE FALTA MOSTRAR --> LOS REVISAN?
+
+//QUE TANTOS COMANDO DEL TP HACE FALTA MOSTRAR ?--> LOS REVISAN
 void shellMain(char *command, char *param, int * esc) {
         if (strcmp(command,"HELP") == 0)
             getHelp();
@@ -43,12 +45,13 @@ void shellMain(char *command, char *param, int * esc) {
         else if (strcmp(command,"GAMES")==0){
             initGames();
         }
-        //QUE COMANDOS DEBEN ESTAR HABILITADOS PARA QUE EL USUARIO HAGA DESDE LA SHELL
-        else if (strcmp(command,"PRINTMM")==0){
-            printMM();
+        //?--> QUE COMANDOS DEBEN ESTAR HABILITADOS PARA QUE EL USUARIO HAGA DESDE LA SHELL
+        //COMANDOS NUEVOS
+        else if (strcmp(command,"MEM")==0){
+            print_mm();
         }
         else if(strcmp(command, "TESTMM")){
-            test_mm();
+            test_mm(); //RECIBE ARGUMENTOS
         }
         else if (strcmp(command, "EXIT") == 0){
             *esc = 1;
@@ -56,6 +59,7 @@ void shellMain(char *command, char *param, int * esc) {
         }
         else printf("Comando invalido.\n Escriba HELP para mas informacion.\n");  
     return;
+    //COMANDOS QUE FALTAN: VER EN PRINT DE HELP
 }
 
 void printMem(char* hexa){
@@ -96,7 +100,25 @@ void getHelp() {
     printf("~ DIVEX: Para lanzar una excepcion por division por cero.\n");
     printf("~ OPEX: Para lanzar una excepcion por operador de codigo invalido.\n");
     printf("~ GAMES: Juegos disponibles - Ahorcado y Sudoku. Pulsar la tecla \"e\" para salir de los juegos.\n");
-    printf("~ PRINTMM: Imprime memoria total, libre y ocupada.\n");
+    //COMANDOS NUEVOS
+    printf("~ SH: \n"); //?--> QUE ES UN COMANDO Y QUE ES SOLO PARTE DE LA SHELL
+    printf("~ MEM: Imprime memoria total, libre y ocupada.\n");
+    printf("~ PS: \n");
+    printf("~ LOOP: \n");
+    printf("~ KILL: \n");
+    printf("~ NICE: \n");
+    printf("~ BLOCK: \n");
+    printf("~ SEM: \n");
+    printf("~ CAT: \n");
+    printf("~ WC: \n");
+    printf("~ FILTER: \n");
+    printf("~ PIPE: \n");
+    printf("~ PHYLO: \n");
+    printf("APARTADO DE TESTEOS:\n");
+    printf("~ TESTMEM: \n");
+    printf("~ TESTPRIO: \n");
+    printf("~ TESTPROCESSES: \n");
+    printf("~ TESTSYNC: \n");
     printf("~ EXIT: Abortar la ejecucion.\n");
 }
 

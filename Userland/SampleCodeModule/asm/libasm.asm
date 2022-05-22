@@ -8,9 +8,10 @@ GLOBAL separateScreen
 GLOBAL opCodeExc
 GLOBAL writeAtPos
 GLOBAL ticks
+;NUEVAS FUNCIONES
 GLOBAL malloc
 GLOBAL free
-GLOBAL printMM
+GLOBAL print_mm
 
 ; read - lee de un fd determinado
 ; IN- RDI - FD
@@ -224,6 +225,7 @@ malloc:
     push rdi
     push rsi
 
+    mov rsi,rdi
     mov rdi, 9
     int 80h
     
@@ -239,6 +241,7 @@ free:
     push rdi
     push rsi
 
+    mov rsi,rdi
     mov rdi, 10
     int 80h
     
@@ -246,8 +249,8 @@ free:
     pop rdi
     leave
 
-;printMM - imprime el estado de la memoria
-printMM:
+;print_mm - imprime el estado de la memoria
+print_mm:
     push rbp
     mov rbp,rsp
 
