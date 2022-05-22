@@ -3,6 +3,8 @@ GLOBAL getKey
 GLOBAL getReg
 GLOBAL getMem
 
+GLOBAL callTimerTick
+
 section .text
 	
 cpuVendor:
@@ -165,3 +167,7 @@ getMem:
 	mov rsp,rbp
 	pop rbp
 	ret
+
+callTimerTick:
+    int 20h
+    ret

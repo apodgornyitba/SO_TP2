@@ -96,6 +96,29 @@ char *intToHexa(long long num, char *str, int bytes)
     return reverse(str, 0, i-1); 
 } 
 
+int strlength(const char *s)
+{
+    int i;
+    for (i = 0; s[i] != '\0'; i++);
+    return i;
+}
+
+char *strcopy(char *destination, const char *source)
+{
+
+    char *ptr = destination;
+
+    while (*source != '\0')
+    {
+        *destination = *source;
+        destination++;
+        source++;
+    }
+
+    *destination = '\0';
+    return ptr;
+ }
+
 void swap(char *x, char *y)
 {
     char t = *x;

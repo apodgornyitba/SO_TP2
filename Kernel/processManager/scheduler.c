@@ -6,7 +6,11 @@ static Process *currentProcess;
 static uint64_t cyclesLeft;
 static Process *baseProcess;
 
-static void processQueue(Process *newProcess)
+static int queueIsEmpty();
+static uint64_t getNewPID();
+static void freeProcess(Process *process);
+
+static void processQueue(Process * newProcess)
 {
       if (queueIsEmpty())
       {
@@ -128,8 +132,8 @@ static int argsCopy(char **buffer, char **argv, int argc)
 {
       for (int i = 0; i < argc; i++)
       {
-            buffer[i] = malloc(sizeof(char) * (strlen(argv[i]) + 1));
-            strcpy(argv[i], buffer[i]);
+            buffer[i] = malloc(sizeof(char) * (strlength(argv[i]) + 1));
+            strcopy(argv[i], buffer[i]);
       }
       return 1;
 }
@@ -170,7 +174,7 @@ static void setStackFrame(void (*entryPoint)(int, char **), int argc, char **arg
 
 static int createPCB(PCB *process, char *name, int fg, int *fd)
 {
-      strcpy(name, process->name);
+      strcopy(name, process->name);
       process->pid = getNewPID();
 
       process->ppid = currentProcess == NULL ? 0 : currentProcess->pcb.pid;
@@ -325,14 +329,28 @@ char *stateToStr(State state)
 void printProcess(Process *process)
 {
 
-      if (process != NULL)
-            print("%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
-                  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
+      if (process != NULL){
+            // print("%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
+            //  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
+
+            sysWrite(2,process->pcb.pid, strlength(process->pcb.pid), 0, 0);
+            sysWrite(2, (int)process->pcb.foreground, strlength((int)process->pcb.foreground), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.rsp, strlength((uint64_t)process->pcb.rsp), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.rbp, strlength((uint64_t)process->pcb.rbp), 0, 0);
+            sysWrite(2, stateToStr(process->state), strlength(stateToStr(process->state)), 0, 0);
+            sysWrite(2, process->pcb.name, strlength(process->pcb.name), 0, 0);
+
+
+
+      }
 }
 
 void processDisplay()
 {
-      printStringLn("PID      FG       RSP              RBP              STATE        NAME");
+      // printStringLn("PID      FG       RSP              RBP              STATE        NAME");
+
+      sysWrite(2, "PID      FG       RSP              RBP              STATE        NAME", strlength("PID      FG       RSP              RBP              STATE        NAME"), 0, 0);
+
 
       if (currentProcess != NULL)
             printProcess(currentProcess);

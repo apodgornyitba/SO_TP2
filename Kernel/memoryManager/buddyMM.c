@@ -53,6 +53,8 @@ static list_t *list_pop(list_t *list) {
   return back;
 }
 
+int log2(uint32_t n);
+
 int is_empty(list_t *list)
 {
     return list->prev == list;
@@ -203,6 +205,19 @@ void printMemState()
       intToHexa( MAX_ALLOC - used_memory, buffer, 8);
       sysWrite(2, (uint64_t) buffer, 20, 0, 0);
       sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+}
+
+int log2(uint32_t n)
+{
+      if (n == 0)
+            return -1;
+      int ans = -1;
+      while (n)
+      {
+            ans++;
+            n >>= 1;
+      }
+      return ans;
 }
 
 #endif

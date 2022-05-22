@@ -109,12 +109,12 @@ uint64_t sysTicks(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_
 }
 
 uint64_t sysMalloc (uint64_t nbytes, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
-     malloc(nbytes);
+     malloc((unsigned long)nbytes);
      return 0;
 }
 
 uint64_t sysFree (uint64_t ap, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9){
-    free(ap);
+    free((void *)ap);
      return 0;
 }
 

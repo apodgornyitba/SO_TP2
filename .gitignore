@@ -55,3 +55,12 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+.bash_history
+all
+BUDDY_MM
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/settings.json
+.vscode/targets.log
+Userland/SampleCodeModule/tests/.bashrc
+Userland/SampleCodeModule/tests/.gdb_history
