@@ -26,7 +26,7 @@ STATICLIBS=
 all: $(KERNEL)
 
 # $@ representa lo que previo a los :
-$(OBJECTS_MM)P# $^ representa TODOS los prerrequisitos
+# $^ representa TODOS los prerrequisitos
 $(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_MM) $(OBJECTS_PM)
 	$(LD) $(LDFLAGS) -T kernel.ld -o $@ $^
 
