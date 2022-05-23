@@ -18,14 +18,14 @@ int ticks();
 void * my_malloc(unsigned int nbytes);
 void my_free(void * ap);
 void print_mm();
-int64_t my_yield();
-int64_t my_getpid();
-int64_t my_create_process(char * name, uint64_t argc, char *argv[], int fg, int fd);
-int64_t my_nice(uint64_t pid, uint64_t newPrio);
-int64_t my_kill(uint64_t pid);
-int64_t my_block(uint64_t pid);
-int64_t my_unblock(uint64_t pid);
-int64_t my_wait(int64_t pid);
+int my_yield();
+int my_getpid();
+int my_create_process(char * name, int argc, char *argv[], int fg, int * fd);
+int my_nice(int pid, int newPrio);
+int my_kill(int pid);
+int my_block(int pid);
+int my_unblock(int pid);
+int my_wait(int pid);
 
 
 #endif

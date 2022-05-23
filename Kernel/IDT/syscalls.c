@@ -132,44 +132,44 @@ uint64_t sysPrintMM(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint6
   return 0;
 }
 
-int64_t sysGetpid(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysGetpid(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   return getCurrPID();
 }
 
-int64_t sysCreateProcess(uint64_t name, uint64_t argc, uint64_t argv, uint64_t fg, uint64_t fd)
+uint64_t sysCreateProcess(uint64_t name, uint64_t argc, uint64_t argv, uint64_t fg, uint64_t fd)
 {
   return addProcess((void (*)(int, char **))name, (int)argc, (char **)argv, (int)fg, (int *)fd);
 }
 
-int64_t sysKill(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysKill(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   return killProcess(pid);
 }
 
-int64_t sysBlock(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysBlock(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   return blockProcess(pid);
 }
 
-int64_t sysUnblock(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysUnblock(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   return unblockProcess(pid);
 }
 
-int64_t sysYield(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysYield(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   yield();
   return 0;
 }
 
-int64_t sysNice(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysNice(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   setPriority(pid, (int) newPrio);
   return 0;
 }
 
-int64_t sysWait(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+uint64_t sysWait(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   waitForPID(pid);
   return 0;

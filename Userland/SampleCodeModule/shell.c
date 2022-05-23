@@ -4,13 +4,13 @@
 #include <lib.h>
 #include <libc.h>
 #include <games.h>
-#include "tests.h"
+#include <tests.h>
 
-#ifdef FREE_LIST
+// #ifdef FREE_LIST
 #define MAX_MEMORY (96 * 1024 * 1024)
-#else
-#define MAX_MEMORY (32 * 1024 * 1024)
-#endif
+// #else
+// #define MAX_MEMORY (32 * 1024 * 1024)
+// #endif
 
 //?--> CAMBIARON TODA LA IMPLEMENTACION PARA QUE SE HAGA CON PROCESOS (PIPES Y SEMAFOROS)
 
@@ -30,34 +30,44 @@ void initialize() {
 
 //QUE TANTOS COMANDO DEL TP HACE FALTA MOSTRAR ?--> LOS REVISAN
 void shellMain(char *command, char *param, int * esc) {
-        if (strcmp(command,"HELP") == 0)
+        if (strcmp(command,"HELP") == 0){
             getHelp();
-        else if (strcmp(command,"DATETIME")==0)
+        }
+        else if (strcmp(command,"DATETIME")==0){
             printDateTime();
-        else if(strcmp(command,"CLEAR")==0)
+        }
+        else if(strcmp(command,"CLEAR")==0){
             scClear();
+        }
         else if (strcmp(command, "PRINTMEM") == 0)
         {
             if (param[0]=='0'&& param[1]=='x')
                 printMem(param);
             else printf("Ingrese un parametro valido en hexa.\n");
         }
-        else if (strcmp(command, "INFOREG") == 0)
+        else if (strcmp(command, "INFOREG") == 0){
             printRegisters();
-        else if (strcmp(command,"DIVEX") == 0)
+        }
+        else if (strcmp(command,"DIVEX") == 0){
             divExc();
-        else if(strcmp(command,"OPEX")==0)
+        }
+        else if(strcmp(command,"OPEX")==0){
             opCodeExc();
+        }
         else if (strcmp(command,"GAMES")==0){
             initGames();
         }
-        //?--> QUE COMANDOS DEBEN ESTAR HABILITADOS PARA QUE EL USUARIO HAGA DESDE LA SHELL
-        //COMANDOS NUEVOS
         else if (strcmp(command,"MEM")==0){
             print_mm();
         }
-        else if(strcmp(command, "TESTMM")){
+        else if(strcmp(command, "TESTMM") == 0){
             test_mm(1, (char**) MAX_MEMORY); //RECIBE ARGUMENTOS
+        }
+        else if(strcmp(command, "TESTPCS") == 0){
+            test_processes(1, (char **)10); //RECIBE ARGUMENTOS
+        }
+        else if(strcmp(command, "TESTPCS") == 0){
+            test_prio(); 
         }
         else if (strcmp(command, "EXIT") == 0){
             *esc = 1;
@@ -121,9 +131,9 @@ void getHelp() {
     printf("~ PIPE: \n");
     printf("~ PHYLO: \n");
     printf("APARTADO DE TESTEOS:\n");
-    printf("~ TESTMEM: \n");
+    printf("~ TESTMM: \n");
     printf("~ TESTPRIO: \n");
-    printf("~ TESTPROCESSES: \n");
+    printf("~ TESTPCS: \n");
     printf("~ TESTSYNC: \n");
     printf("~ EXIT: Abortar la ejecucion.\n");
 }
