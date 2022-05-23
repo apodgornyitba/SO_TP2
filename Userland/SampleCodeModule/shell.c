@@ -54,7 +54,7 @@ void shellMain(char *command, char *param, int * esc) {
         else if(strcmp(command,"OPEX")==0){
             opCodeExc();
         }
-        else if (strcmp(command,"GAMES")==0){
+        else if (strcmp(command,"GAMES")==0){ //VUELVA
             initGames();
         }
         else if (strcmp(command,"MEM")==0){

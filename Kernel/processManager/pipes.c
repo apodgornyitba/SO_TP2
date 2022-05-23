@@ -1,0 +1,163 @@
+#include <pipes.h>
+#include <lib.h>
+#include <semaphores.h>
+
+#define MAX_PIPES 8
+
+Pipe pipes[MAX_PIPES];
+
+int initialSemId = 1000;
+
+static int createPipe(int pipeId);
+static int pipeWriter(char c, int idx);
+static int getNewIndex();
+static int getIndex(int pipeId);
+
+int pipeOpen(int pipeId) {
+  int idx;
+  if ((idx = getIndex(pipeId)) == -1) {
+    idx = createPipe(pipeId);
+    if (idx == -1) {
+      return -1;
+    }
+  }
+  pipes[idx].totalProcesses++;
+  return pipeId;
+}
+
+int pipeWrite(int pipeId, char *str) {
+  int idx = getIndex(pipeId);
+  if (idx == -1) {
+    return -1;
+  }
+  int i = 0;
+  while (str[i] != 0) {
+    pipeWriter(str[i], idx);
+    i++;
+  }
+  return pipeId;
+}
+
+int pipeRead(int pipeId) {
+  int idx = getIndex(pipeId);
+
+  if (idx == -1) {
+    return -1;
+  }
+
+  Pipe *pipe = &(pipes[idx]);
+
+  char c;
+
+  semWait(pipe->readLock);
+
+  c = pipe->buffer[pipe->readIndex];
+  // circular buffer
+  pipe->readIndex = (pipe->readIndex + 1) % PIPE_BUFFER_SIZE;
+
+  semPost(pipe->writeLock);
+
+  return c;
+}
+
+int pipeClose(int pipeId) {
+  int idx = getIndex(pipeId);
+  if (idx == -1) {
+    return -1;
+  }
+
+  Pipe *pipe = &(pipes[idx]);
+
+  pipe->totalProcesses--;
+
+  if (pipe->totalProcesses > 0) {
+    return 1;
+  }
+
+  semClose(pipe->readLock);
+  semClose(pipe->writeLock);
+
+  pipe->state = EMPTY;
+
+  return 1;
+}
+
+static int pipeWriter(char c, int idx) {
+  Pipe *pipe = &(pipes[idx]);
+
+  semWait(pipe->writeLock);
+
+  pipe->buffer[pipe->writeIndex] = c;
+  // circular buffer
+  pipe->writeIndex = (pipe->writeIndex + 1) % PIPE_BUFFER_SIZE;
+
+  semPost(pipe->readLock);
+
+  return 0;
+}
+
+static int getIndex(int pipeId) {
+  for (int i = 0; i < MAX_PIPES; i++) {
+    if (pipes[i].state == IN_USE && pipes[i].id == pipeId) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+static int getNewIndex() {
+  for (int i = 0; i < MAX_PIPES; i++) {
+    if (pipes[i].state == EMPTY) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+static int createPipe(int pipeId) {
+  int idx;
+
+  if ((idx = getNewIndex()) == -1) {
+    return -1;
+  }
+
+  Pipe *pipe = &(pipes[idx]);
+
+  pipe->id = pipeId;
+  pipe->state = IN_USE;
+  pipe->readIndex = pipe->writeIndex = pipe->totalProcesses = 0;
+
+  if ((pipe->readLock = semOpen(initialSemId++, 0)) == -1) {
+    return -1;
+  }
+  if ((pipe->writeLock = semOpen(initialSemId++, PIPE_BUFFER_SIZE)) == -1) {
+    return -1;
+  }
+
+  return pipeId;
+}
+
+void pipeStatus() {
+  sysWrite(2,"Active Pipe Status\n", 20,0,0);
+  for (int i = 0; i < MAX_PIPES; i++) {
+    Pipe pipe = pipes[i];
+    if (pipe.state == IN_USE) {
+      sysWrite(2, (uint64_t)"\n     Pipe ID: ", 16, 0, 0);
+      sysWrite(2, (uint64_t) pipe.id, strlength(pipe.id), 0, 0);
+      sysWrite(2, (uint64_t)"\n     Amount of attached processes: ",37, 0,0);
+      sysWrite(2, (uint64_t) pipe.totalProcesses, strlength(pipe.totalProcesses), 0, 0);
+      sysWrite(2, (uint64_t)"\n     Read semaphore: ", 23,0,0);
+      sysWrite(2, (uint64_t) pipe.readLock, strlength(pipe.readLock), 0, 0);
+      sysWrite(2, (uint64_t)"\n     Write semaphore: ", 23,0,0);
+      sysWrite(2, (uint64_t)  pipe.writeLock, strlength( pipe.writeLock), 0, 0);
+      sysWrite(2, (uint64_t)"\n     Pipe buffer content: ",27,0,0);
+      for (int i = pipe.readIndex; i != pipe.writeIndex;
+           i = (i + 1) % PIPE_BUFFER_SIZE) {
+        putChar(pipe.buffer[i]);
+      }
+      sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(sem->blockedProcessesAmount), 0, 0);
+    sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
+    }
+  }
+  sysWrite(2,"\n",2,0,0);
+}

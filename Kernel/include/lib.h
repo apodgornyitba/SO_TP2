@@ -12,6 +12,8 @@ uint64_t getReg(uint64_t reg);
 unsigned char getMem(uint64_t address);
 
 void callTimerTick();
+int _xchg(int *mutex, int value);
+
 
 char *reverse(char *buffer, int i, int j);
 char *intToHexa(long long num, char *str, int bytes);

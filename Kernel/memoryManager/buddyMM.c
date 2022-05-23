@@ -170,7 +170,7 @@ void my_free(void *block) {
     return;
   }
 
-  //?--> PREGUNTAR: Agregar un used_memory -= cantidad de memoria liberada
+  //?--> PREGUNTAR: Agregar un used_memory -= cantidad de memoria liberada (SABER HASTA DONDE SE LE HABIA ASIGNADO LA MEMORIA)
 
   list_t *freeNode = (list_t *)block - 1;
 
