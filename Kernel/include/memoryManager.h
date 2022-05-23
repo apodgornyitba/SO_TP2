@@ -9,8 +9,8 @@
 #include <lib.h>
 
 void memInit(char *memBase, unsigned long memSize);
-void * malloc(unsigned long nbytes);
-void free(void* ap);
+void * my_malloc(unsigned long nbytes);
+void my_free(void* ap);
 void printMemState();
 
 #endif

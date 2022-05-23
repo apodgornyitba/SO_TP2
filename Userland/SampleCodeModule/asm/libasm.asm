@@ -9,8 +9,8 @@ GLOBAL opCodeExc
 GLOBAL writeAtPos
 GLOBAL ticks
 ;NUEVAS FUNCIONES
-GLOBAL malloc
-GLOBAL free
+GLOBAL my_malloc
+GLOBAL my_free
 GLOBAL print_mm
 
 ; read - lee de un fd determinado
@@ -217,8 +217,8 @@ ticks:
     pop rdi
     leave
 
-;malloc - realiza la alocacion de memoria
-malloc:
+;my_malloc - realiza la alocacion de memoria
+my_malloc:
     push rbp
     mov rbp,rsp
 
@@ -233,8 +233,8 @@ malloc:
     pop rdi
     leave
 
-;free - libera la memoria
-free:
+;my_free - libera la memoria
+my_free:
     push rbp
     mov rbp,rsp
 

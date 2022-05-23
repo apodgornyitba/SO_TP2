@@ -36,7 +36,7 @@ void memInit(char *memBase, unsigned long memSize)
 }
 
 /* malloc: asignador de almacenamiento de proposito general */
-void *malloc(unsigned long nbytes)
+void *my_malloc(unsigned long nbytes)
 {
      if (nbytes == 0)
             return NULL;
@@ -69,7 +69,7 @@ void *malloc(unsigned long nbytes)
 }
 
 /* free: coloca el bloque ap en la lista vacia */
-void free(void* ap)
+void my_free(void* ap)
 {
 
     if (ap == NULL || (((long)ap - (long)base) % sizeof(Header)) != 0)

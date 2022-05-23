@@ -15,8 +15,8 @@ void opCodeExc();
 int writeAtPos(int fd, char *buffer, int length,int x, int y);
 int ticks();
 //NUEVAS FUNCIONES
-void malloc(unsigned long nbytes);
-void free(unsigned long ap);
+void * my_malloc(unsigned int nbytes);
+void my_free(void * ap);
 void print_mm();
 
 #endif

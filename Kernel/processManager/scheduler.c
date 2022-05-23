@@ -132,7 +132,7 @@ static int argsCopy(char **buffer, char **argv, int argc)
 {
       for (int i = 0; i < argc; i++)
       {
-            buffer[i] = malloc(sizeof(char) * (strlength(argv[i]) + 1));
+            buffer[i] = my_malloc(sizeof(char) * (strlength(argv[i]) + 1));
             strcopy(argv[i], buffer[i]);
       }
       return 1;
@@ -182,7 +182,7 @@ static int createPCB(PCB *process, char *name, int fg, int *fd)
             return -1;
       // If i have a parent and he is not in the foreground, then I can not be in the foreground either
       process->foreground = currentProcess == NULL ? fg : (currentProcess->pcb.foreground ? fg : 0);
-      process->rbp = malloc(STACK_SIZE);
+      process->rbp = my_malloc(STACK_SIZE);
       process->priority = process->foreground ? FOREGROUND_PRIORITY : BACKGROUND_PRIORITY;
       process->fd[0] = fd ? fd[0] : 0;
       process->fd[1] = fd ? fd[1] : 1;
@@ -200,18 +200,18 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
       if (entryPoint == NULL)
             return -1;
 
-      Process *newProcess = malloc(sizeof(Process));
+      Process *newProcess = my_malloc(sizeof(Process));
 
       if (newProcess == NULL)
             return -1;
 
       if (createPCB(&newProcess->pcb, argv[0], foreground, fd) == -1)
       {
-            free(newProcess);
+            my_free(newProcess);
             return -1;
       }
 
-      char **argvCopy = malloc(sizeof(char *) * argc);
+      char **argvCopy = my_malloc(sizeof(char *) * argc);
       if (argvCopy == 0)
             return -1;
       argsCopy(argvCopy, argv, argc);
@@ -231,7 +231,7 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
 
 void initScheduler()
 {
-      processes = malloc(sizeof(ProcessList));
+      processes = my_malloc(sizeof(ProcessList));
 
       if (processes == NULL)
             return;
@@ -305,10 +305,10 @@ static uint64_t getNewPID()
 static void freeProcess(Process *process)
 {
       for (int i = 0; i < process->pcb.argc; i++)
-            free(process->pcb.argv[i]);
-      free(process->pcb.argv);
-      free((void *)((char *)process->pcb.rbp - STACK_SIZE + 1));
-      free((void *)process);
+            my_free(process->pcb.argv[i]);
+      my_free(process->pcb.argv);
+      my_free((void *)((char *)process->pcb.rbp - STACK_SIZE + 1));
+      my_free((void *)process);
 }
 
 char *stateToStr(State state)
@@ -333,12 +333,12 @@ void printProcess(Process *process)
             // print("%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
             //  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
 
-            sysWrite(2,process->pcb.pid, strlength(process->pcb.pid), 0, 0);
-            sysWrite(2, (int)process->pcb.foreground, strlength((int)process->pcb.foreground), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.rsp, strlength((uint64_t)process->pcb.rsp), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.rbp, strlength((uint64_t)process->pcb.rbp), 0, 0);
-            sysWrite(2, stateToStr(process->state), strlength(stateToStr(process->state)), 0, 0);
-            sysWrite(2, process->pcb.name, strlength(process->pcb.name), 0, 0);
+            // sysWrite(2, process->pcb.pid, strlength((const char *)process->pcb.pid), 0, 0);
+            // sysWrite(2, (int)process->pcb.foreground, strlength((const char *)process->pcb.foreground), 0, 0);
+            // sysWrite(2, (uint64_t)process->pcb.rsp, strlength((const char *)process->pcb.rsp), 0, 0);
+            // sysWrite(2, (uint64_t)process->pcb.rbp, strlength((const char *)process->pcb.rbp), 0, 0);
+            // sysWrite(2, (uint64_t)process->state, strlength(stateToStr(process->state)), 0, 0);
+            // sysWrite(2, process->pcb.name, strlength(process->pcb.name), 0, 0);
 
 
 
@@ -348,8 +348,9 @@ void printProcess(Process *process)
 void processDisplay()
 {
       // printStringLn("PID      FG       RSP              RBP              STATE        NAME");
-
-      sysWrite(2, "PID      FG       RSP              RBP              STATE        NAME", strlength("PID      FG       RSP              RBP              STATE        NAME"), 0, 0);
+      const char * message = "PID      FG       RSP              RBP              STATE        NAME";
+      const int length = strlength(message); 
+      sysWrite(2, (uint64_t)message, length, 0, 0);
 
 
       if (currentProcess != NULL)
