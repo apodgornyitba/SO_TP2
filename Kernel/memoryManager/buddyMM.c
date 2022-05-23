@@ -137,7 +137,7 @@ void memInit(char *memBase, unsigned long memSize) {
   addNodeToBucket(&buckets[buckets_amount - 1], base, buckets_amount - 1);
 }
 
-void *malloc(unsigned long nbytes) {
+void *my_malloc(unsigned long nbytes) {
   size_t bytesNeeded = nbytes + sizeof(list_t);
 
   if (nbytes == 0 || bytesNeeded > bucket_limit + 1) {
@@ -165,7 +165,7 @@ void *malloc(unsigned long nbytes) {
   return (void *)(resultNode + 1);
 }
 
-void free(void *block) {
+void my_free(void *block) {
   if (block == NULL) {
     return;
   }

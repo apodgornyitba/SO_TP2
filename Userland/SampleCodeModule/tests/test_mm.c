@@ -42,8 +42,10 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
     // Set
     uint32_t i;
     for (i = 0; i < rq; i++)
-      if (mm_rqs[i].address)
+      if (mm_rqs[i].address){
+        // printf("test_mm SUCCESS SET\n");
         memset(mm_rqs[i].address, i, mm_rqs[i].size);
+      }
 
     // Check
     for (i = 0; i < rq; i++)
@@ -55,7 +57,9 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
 
     // Free
     for (i = 0; i < rq; i++)
-      if (mm_rqs[i].address)
+      if (mm_rqs[i].address) {
+        // printf("test_mm SUCCESS FREE\n");
         my_free(mm_rqs[i].address);
+      }
   } 
 }

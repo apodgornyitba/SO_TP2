@@ -1,5 +1,7 @@
 #include <scheduler.h>
 
+//?--> PREGUNTAR POR EL USO DE LOS PUNTEROS (. VS ->)
+
 static uint64_t currentPID = 0;
 static ProcessList *processes;
 static Process *currentProcess;
@@ -19,7 +21,8 @@ static void processQueue(Process * newProcess)
       }
       else
       {
-            processes->last->next = newProcess;
+            //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
+            processes->last->next = (struct Process *) newProcess;
             newProcess->next = NULL;
             processes->last = newProcess;
       }
@@ -36,7 +39,8 @@ static Process *processDequeue()
             return NULL;
 
       Process *p = processes->first;
-      processes->first = processes->first->next;
+      //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
+      processes->first = (Process *) processes->first->next;
       processes->size--;
 
       if (p->state == READY)
@@ -55,7 +59,8 @@ static Process *getProcessOfPID(uint64_t pid)
       if (currentProcess != NULL && currentProcess->pcb.pid == pid)
             return currentProcess;
 
-      for (Process *p = processes->first; p != NULL; p = p->next)
+      //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
+      for (Process *p = processes->first; p != NULL; p = (Process *) p->next)
             if (p->pcb.pid == pid)
                   return p;
 
@@ -333,12 +338,13 @@ void printProcess(Process *process)
             // print("%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
             //  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
 
-            // sysWrite(2, process->pcb.pid, strlength((const char *)process->pcb.pid), 0, 0);
-            // sysWrite(2, (int)process->pcb.foreground, strlength((const char *)process->pcb.foreground), 0, 0);
-            // sysWrite(2, (uint64_t)process->pcb.rsp, strlength((const char *)process->pcb.rsp), 0, 0);
-            // sysWrite(2, (uint64_t)process->pcb.rbp, strlength((const char *)process->pcb.rbp), 0, 0);
-            // sysWrite(2, (uint64_t)process->state, strlength(stateToStr(process->state)), 0, 0);
-            // sysWrite(2, process->pcb.name, strlength(process->pcb.name), 0, 0);
+            char tmpBuffer[20];
+            sysWrite(2, (uint64_t)process->pcb.pid, (uint64_t)strlength((const char *)process->pcb.pid), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.foreground, strlength(intToStr(process->pcb.foreground, tmpBuffer, 10)), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.rsp, strlength((const char *)process->pcb.rsp), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.rbp, strlength((const char *)process->pcb.rbp), 0, 0);
+            sysWrite(2, (uint64_t)process->state, strlength(stateToStr(process->state)), 0, 0);
+            sysWrite(2, (uint64_t)process->pcb.name, strlength(process->pcb.name), 0, 0);
 
 
 
@@ -360,7 +366,8 @@ void processDisplay()
       while (curr)
       {
             printProcess(curr);
-            curr = curr->next;
+            //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
+            curr = (Process *) curr->next;
       }
 }
 
@@ -369,7 +376,7 @@ int getCurrPID()
       return currentProcess ? currentProcess->pcb.pid : -1;
 }
 
-void setNewCycle(uint64_t pid, int priority)
+void setPriority(uint64_t pid, int priority)
 {
 
       if (priority < 0)

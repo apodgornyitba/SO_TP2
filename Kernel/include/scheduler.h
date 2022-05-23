@@ -85,7 +85,7 @@ uint64_t blockProcess(uint64_t pid);
 uint64_t unblockProcess(uint64_t pid);
 int getCurrPID();
 void processDisplay();
-void setNewCycle(uint64_t pid, int priority);
+void setPriority(uint64_t pid, int priority);
 void killFgProcess();
 void yield();
 int currentReadsFrom();

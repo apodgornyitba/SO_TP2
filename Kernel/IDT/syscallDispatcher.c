@@ -14,9 +14,20 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysSeparateScreen, //6  
     sysWriteAtPos, //7
     sysTicks, //8
+    //NUEVAS FUNCIONES
     sysMalloc, //9
     sysFree, //10
-    sysPrintMM //11
+    sysPrintMM, //11
+    sysGetpid, //12
+    sysCreateProcess, //13
+    sysKill, //14
+    sysBlock, //15
+    sysUnblock, //16
+    sysYield, //17
+    sysNice, //18
+    sysWait, //19
+
+
 
     //AREGAR LAS SYSCALLS QUE FALTAN
     };

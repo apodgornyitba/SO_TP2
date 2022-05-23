@@ -16,6 +16,7 @@ void callTimerTick();
 char *reverse(char *buffer, int i, int j);
 char *intToHexa(long long num, char *str, int bytes);
 int strlength(const char *s);
+char *intToStr(int value, char *buffer, int base);
 char *strcopy(char *destination, const char *source);
 int abs(int n);
 

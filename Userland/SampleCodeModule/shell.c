@@ -6,6 +6,12 @@
 #include <games.h>
 #include "tests.h"
 
+#ifdef FREE_LIST
+#define MAX_MEMORY (96 * 1024 * 1024)
+#else
+#define MAX_MEMORY (32 * 1024 * 1024)
+#endif
+
 //?--> CAMBIARON TODA LA IMPLEMENTACION PARA QUE SE HAGA CON PROCESOS (PIPES Y SEMAFOROS)
 
 static const char *registers[] = {"RAX:", "RBX:", "RCX:", "RDX:", "RBP:", "RDI:", "RSI:", "R8 :", "R9 :", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:"};
@@ -51,7 +57,7 @@ void shellMain(char *command, char *param, int * esc) {
             print_mm();
         }
         else if(strcmp(command, "TESTMM")){
-            test_mm(); //RECIBE ARGUMENTOS
+            test_mm(1, (char**) MAX_MEMORY); //RECIBE ARGUMENTOS
         }
         else if (strcmp(command, "EXIT") == 0){
             *esc = 1;
