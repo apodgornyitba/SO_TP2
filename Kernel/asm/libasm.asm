@@ -4,6 +4,7 @@ GLOBAL getReg
 GLOBAL getMem
 
 GLOBAL callTimerTick
+GLOBAL _xchg
 
 section .text
 	
@@ -167,6 +168,11 @@ getMem:
 	mov rsp,rbp
 	pop rbp
 	ret
+
+_xchg:
+	mov rax, rsi
+	xchg [rdi], eax		; put eax in [rdi] and [rdi] in eax
+	ret    
 
 callTimerTick:
     int 20h

@@ -8,10 +8,13 @@ GLOBAL separateScreen
 GLOBAL opCodeExc
 GLOBAL writeAtPos
 GLOBAL ticks
+
 ;NUEVAS FUNCIONES
+
 GLOBAL my_malloc
 GLOBAL my_free
 GLOBAL print_mm
+
 GLOBAL my_getpid
 GLOBAL my_yield
 GLOBAL my_create_process
@@ -20,6 +23,18 @@ GLOBAL my_kill
 GLOBAL my_block
 GLOBAL my_unblock
 GLOBAL my_wait
+GLOBAL my_print_pcs
+
+GLOBAL my_sem_open
+GLOBAL my_sem_close
+GLOBAL my_sem_wait
+GLOBAL my_sem_post
+GLOBAL my_print_sems
+
+
+
+
+
 
 
 ; read - lee de un fd determinado
@@ -438,6 +453,109 @@ my_wait:
     pop rdi
     leave
     ret
+;my_print_pcs - imprime la lista de procesos
+my_print_pcs:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 20
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret    
+
+;my_sem_open - Open semaphore
+my_sem_open:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+    push rdx
+
+    mov rdx, rsi
+    mov rsi, rdi
+    mov rdi, 21
+    int 80h
+    
+    pop rdx
+    pop rsi
+    pop rdi
+    
+    leave
+    ret
+
+;my_sem_close - Close semaphore
+my_sem_close:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 22
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret
+
+;my_sem_wait - Wait semaphore
+my_sem_wait:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 23
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret        
+
+;my_sem_post - Post semaphore
+my_sem_post:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 24
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret
+
+;my_print_sems - imprime la lista de procesos
+my_print_sems:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 25
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret 
 
 ret;opCodeExc - Programa de prueba para excepcion de operacion invalido     
 opCodeExc:

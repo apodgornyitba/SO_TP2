@@ -23,6 +23,15 @@ uint64_t sysUnblock(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint6
 uint64_t sysYield(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
 uint64_t sysNice(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint64_t r9);
 uint64_t sysWait(uint64_t pid, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysPrintPCS(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysOpenSem(uint64_t sem_id, uint64_t initialValue, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysCloseSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysWaitSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysPostSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysPrintSems(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+
+
+
 
 uint64_t *getRegs();
 

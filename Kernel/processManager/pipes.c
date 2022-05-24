@@ -138,26 +138,28 @@ static int createPipe(int pipeId) {
 }
 
 void pipeStatus() {
-  sysWrite(2,"Active Pipe Status\n", 20,0,0);
+  char tmpBuffer[20];
+  sysWrite(2,(uint64_t) "Active Pipe Status\n", 20,0,0);
+  
   for (int i = 0; i < MAX_PIPES; i++) {
     Pipe pipe = pipes[i];
     if (pipe.state == IN_USE) {
       sysWrite(2, (uint64_t)"\n     Pipe ID: ", 16, 0, 0);
-      sysWrite(2, (uint64_t) pipe.id, strlength(pipe.id), 0, 0);
+      sysWrite(2, (uint64_t) pipe.id, strlength(intToStr(pipe.id, tmpBuffer, 10)), 0, 0);
       sysWrite(2, (uint64_t)"\n     Amount of attached processes: ",37, 0,0);
-      sysWrite(2, (uint64_t) pipe.totalProcesses, strlength(pipe.totalProcesses), 0, 0);
+      sysWrite(2, (uint64_t) pipe.totalProcesses, strlength(intToStr(pipe.totalProcesses, tmpBuffer, 10)), 0, 0);
       sysWrite(2, (uint64_t)"\n     Read semaphore: ", 23,0,0);
-      sysWrite(2, (uint64_t) pipe.readLock, strlength(pipe.readLock), 0, 0);
+      sysWrite(2, (uint64_t) pipe.readLock, strlength(intToStr(pipe.readLock, tmpBuffer, 10)), 0, 0);
       sysWrite(2, (uint64_t)"\n     Write semaphore: ", 23,0,0);
-      sysWrite(2, (uint64_t)  pipe.writeLock, strlength( pipe.writeLock), 0, 0);
+      sysWrite(2, (uint64_t)  pipe.writeLock, strlength(intToStr(pipe.writeLock, tmpBuffer, 10)), 0, 0);
       sysWrite(2, (uint64_t)"\n     Pipe buffer content: ",27,0,0);
       for (int i = pipe.readIndex; i != pipe.writeIndex;
            i = (i + 1) % PIPE_BUFFER_SIZE) {
-        putChar(pipe.buffer[i]);
+             sysWrite(2, (uint64_t) pipe.buffer[i], 1, 0, 0);
       }
-      sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(sem->blockedProcessesAmount), 0, 0);
-    sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
+    //   sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(intToStr(sem->blockedProcessesAmount, tmpBuffer, 10)), 0, 0);
+    // sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
     }
   }
-  sysWrite(2,"\n",2,0,0);
+  sysWrite(2,(uint64_t)"\n",2,0,0);
 }

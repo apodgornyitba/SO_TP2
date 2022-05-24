@@ -26,6 +26,14 @@ int my_kill(int pid);
 int my_block(int pid);
 int my_unblock(int pid);
 int my_wait(int pid);
+int my_print_pcs();
+int my_sem_open(char *sem_id, int initialValue);
+int my_sem_wait(char *sem_id);
+int my_sem_post(char *sem_id);
+int my_sem_close(char *sem_id);
+int my_print_sems();
+
+
 
 
 #endif

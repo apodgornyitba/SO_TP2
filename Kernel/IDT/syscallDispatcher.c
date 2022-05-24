@@ -26,8 +26,12 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysYield, //17
     sysNice, //18
     sysWait, //19
-
-
+    sysPrintPCS, //20
+    sysOpenSem, //21
+    sysCloseSem, //22
+    sysWaitSem, //23
+    sysPostSem, //24
+    sysPrintSems, //25
 
     //AREGAR LAS SYSCALLS QUE FALTAN
     };

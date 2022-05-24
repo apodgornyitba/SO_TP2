@@ -67,7 +67,7 @@ static Process *getProcessOfPID(uint64_t pid)
       return NULL;
 }
 
-static uint64_t setNewState(uint64_t pid, State newState)
+uint64_t setNewState(uint64_t pid, State newState)
 {
 
       Process *process = getProcessOfPID(pid);

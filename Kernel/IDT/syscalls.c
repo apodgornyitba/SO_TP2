@@ -11,6 +11,8 @@
 #include <time.h>
 #include <memoryManager.h>
 #include <scheduler.h>
+#include <pipes.h>
+#include <semaphores.h>
 
 #define STDIN 0
 #define STDOUT 1
@@ -172,6 +174,42 @@ uint64_t sysNice(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint
 uint64_t sysWait(uint64_t pid, uint64_t newPrio, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
   waitForPID(pid);
+  return 0;
+}
+
+uint64_t sysPrintPCS(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  processDisplay();
+  return 0;
+}
+
+uint64_t sysOpenSem(uint64_t sem_id, uint64_t initialValue, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  semOpen( (uint32_t) sem_id, initialValue);
+  return 0;
+}
+
+uint64_t sysCloseSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  semClose( (uint32_t) sem_id );
+  return 0;
+}
+
+uint64_t sysWaitSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  semWait( (uint32_t) sem_id);
+  return 0;
+}
+
+uint64_t sysPostSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  semPost( (uint32_t) sem_id);
+  return 0;
+}
+
+uint64_t sysPrintSems(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  semStatus();
   return 0;
 }
 

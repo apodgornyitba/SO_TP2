@@ -8,9 +8,9 @@ Semaphore *semaphores;
 static Semaphore *getSemaphore(uint32_t id);
 static Semaphore *createSemaphore(uint32_t id, uint64_t initialValue);
 static void addSemaphoreToList(Semaphore *newSem);
-static void unblockSemProcess(Semaphore *sem);
 static void removeSemaphore(Semaphore *sem);
 static void blockedProcessesDump(int *blockedProcesses, uint16_t blockedProcessesAmount);
+static void unblockSem(Semaphore *sem);
 
 void acquire(int *lock) {
   while (_xchg(lock, 1) != 0)
@@ -91,29 +91,31 @@ int semClose(uint32_t id) {
 }
 
 void semStatus() {
-  sysWrite(2,"Active Semaphore Status\n",25,0,0);
+  sysWrite(2, (uint64_t) "Active Semaphore Status\n", 25, 0, 0);
   Semaphore *sem = semaphores; 
+  char tmpBuffer[20];
   while (sem) {
     sysWrite(2, (uint64_t)"Semaphore ID: ", 15, 0, 0);
-    sysWrite(2, (uint64_t) sem->id, strlength(sem->id), 0, 0);
+    sysWrite(2, (uint64_t) sem->id, strlength(intToStr(sem->id, tmpBuffer, 10)), 0, 0);
     sysWrite(2, (uint64_t)"\n     Value: ", 14, 0, 0);
-    sysWrite(2, (uint64_t) sem->value, strlength(sem->value), 0, 0);
+    sysWrite(2, (uint64_t) sem->value, strlength(intToStr(sem->value, tmpBuffer, 10)), 0, 0);
     sysWrite(2, (uint64_t)"\n     Attached processes amount: ", 34, 0, 0);
-    sysWrite(2, (uint64_t) sem->listeningProcesses, strlength(sem->listeningProcesses), 0, 0);
+    sysWrite(2, (uint64_t) sem->listeningProcesses, strlength(intToStr(sem->listeningProcesses, tmpBuffer, 10)), 0, 0);
     sysWrite(2, (uint64_t)"\n     Blocked processes amount: ", 33, 0, 0);
-    sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(sem->blockedProcessesAmount), 0, 0);
+    sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(intToStr(sem->blockedProcessesAmount, tmpBuffer, 10)), 0, 0);
     sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
     blockedProcessesDump(sem->blockedProcesses, sem->blockedProcessesAmount);
     sem = sem->next;
   }
 }
 
-static void blockedProcessesDump(int *blockedProcesses, uint16_t blockedProcessesAmount) {
+static void blockedProcessesDump(int * blockedProcesses, uint16_t blockedProcessesAmount) {
+  char tmpBuffer[20];
   for (int i = 0; i < blockedProcessesAmount; i++) {
     sysWrite(2, (uint64_t)"         PID: ",15,0,0);
-    sysWrite(2, (uint64_t) blockedProcesses[i]), strlength(blockedProcesses[i]),0,0;
+    sysWrite(2, (uint64_t) blockedProcesses[i], strlength(intToStr(blockedProcesses[i], tmpBuffer, 10)),0,0);
   }
-  sysWrite(2,"\n",1,0,0);
+  sysWrite(2,(uint64_t) "\n", 2, 0, 0);
 }
 
 static void removeSemaphore(Semaphore *sem) {
@@ -126,7 +128,7 @@ static void removeSemaphore(Semaphore *sem) {
     }
     semListAux->next = sem->next;
   }
-  free(sem);
+  my_free(sem);
 }
 
 static Semaphore *createSemaphore(uint32_t id, uint64_t initialValue) {

@@ -1,6 +1,8 @@
 #ifndef PIPES_H
 #define PIPES_H
 
+#include <syscalls.h>
+
 #define PIPE_BUFFER_SIZE 1024
 #define IN_USE 1
 #define EMPTY 0

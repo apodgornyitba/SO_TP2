@@ -85,7 +85,7 @@ uint64_t blockProcess(uint64_t pid);
 uint64_t unblockProcess(uint64_t pid);
 int getCurrPID();
 void processDisplay();
-static uint64_t setNewState(uint64_t pid, State newState);
+uint64_t setNewState(uint64_t pid, State newState);
 void setPriority(uint64_t pid, int priority);
 void killFgProcess();
 void yield();
