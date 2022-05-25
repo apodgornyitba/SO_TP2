@@ -170,7 +170,7 @@ void my_free(void *block) {
     return;
   }
 
-  //?--> PREGUNTAR: Agregar un used_memory -= cantidad de memoria liberada (SABER HASTA DONDE SE LE HABIA ASIGNADO LA MEMORIA)
+  //FIX: USED MEMORY COUNT
 
   list_t *freeNode = (list_t *)block - 1;
 
@@ -183,8 +183,9 @@ void my_free(void *block) {
     freeNode = getAddress(freeNode);
     freeNode->bucket++;
     freeBuddy = getBuddy(freeNode);
+    used_memory -= (1 << (MIN_ALLOC_LOG2 + bucket));
   }
-
+  
   list_push(&buckets[freeNode->bucket], freeNode);
 }
 

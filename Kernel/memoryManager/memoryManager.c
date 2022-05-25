@@ -107,7 +107,7 @@ void my_free(void* ap)
       freep = p;
 }
 
-void printMemState() //CAMBIAR A PASAJE DE ESTRUCTURA E IMPRESION EN EL USERLAND
+void printMemState()
 {
       char buffer[20];
       sysWrite(2, (uint64_t) "Total Mem: ", 11, 0, 0);

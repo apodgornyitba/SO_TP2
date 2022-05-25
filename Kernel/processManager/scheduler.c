@@ -1,7 +1,5 @@
 #include <scheduler.h>
 
-//?--> PREGUNTAR POR EL USO DE LOS PUNTEROS (. VS ->)
-
 static uint64_t currentPID = 0;
 static ProcessList *processes;
 static Process *currentProcess;
@@ -21,7 +19,7 @@ static void processQueue(Process * newProcess)
       }
       else
       {
-            //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
+            //FIX: LOS CASTEO DE STRUCT PROCESS
             processes->last->next = (struct Process *) newProcess;
             newProcess->next = NULL;
             processes->last = newProcess;
@@ -39,7 +37,6 @@ static Process *processDequeue()
             return NULL;
 
       Process *p = processes->first;
-      //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
       processes->first = (Process *) processes->first->next;
       processes->size--;
 
@@ -59,7 +56,6 @@ static Process *getProcessOfPID(uint64_t pid)
       if (currentProcess != NULL && currentProcess->pcb.pid == pid)
             return currentProcess;
 
-      //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
       for (Process *p = processes->first; p != NULL; p = (Process *) p->next)
             if (p->pcb.pid == pid)
                   return p;
@@ -132,7 +128,6 @@ static void haltFunc(int argc, char **argv)
             _hlt();
 }
 
-//REVISAR FUCNION --> MANEJO DE STRINGS
 static int argsCopy(char **buffer, char **argv, int argc)
 {
       for (int i = 0; i < argc; i++)
@@ -335,9 +330,6 @@ void printProcess(Process *process)
 {
 
       if (process != NULL){
-            // print("%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
-            //  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
-
             char tmpBuffer[20];
             sysWrite(2, (uint64_t)process->pcb.pid, (uint64_t)strlength((const char *)process->pcb.pid), 0, 0);
             sysWrite(2, (uint64_t)process->pcb.foreground, strlength(intToStr(process->pcb.foreground, tmpBuffer, 10)), 0, 0);
@@ -353,7 +345,6 @@ void printProcess(Process *process)
 
 void processDisplay()
 {
-      // printStringLn("PID      FG       RSP              RBP              STATE        NAME");
       const char * message = "PID      FG       RSP              RBP              STATE        NAME";
       const int length = strlength(message); 
       sysWrite(2, (uint64_t)message, length, 0, 0);
@@ -366,7 +357,6 @@ void processDisplay()
       while (curr)
       {
             printProcess(curr);
-            //?--> PREGUNTAR POR LOS CASTEO DE STRUCT PROCESS
             curr = (Process *) curr->next;
       }
 }

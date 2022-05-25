@@ -157,8 +157,6 @@ void pipeStatus() {
            i = (i + 1) % PIPE_BUFFER_SIZE) {
              sysWrite(2, (uint64_t) pipe.buffer[i], 1, 0, 0);
       }
-    //   sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(intToStr(sem->blockedProcessesAmount, tmpBuffer, 10)), 0, 0);
-    // sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
     }
   }
   sysWrite(2,(uint64_t)"\n",2,0,0);

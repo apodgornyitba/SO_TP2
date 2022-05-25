@@ -11,6 +11,8 @@
 #include <kbDriver.h>
 #include <syscallDispatcher.h>
 #include <rtc.h>
+#include <memoryManager.h>
+#include <scheduler.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -23,6 +25,9 @@ static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
 static void * const sampleDataModuleAddress = (void*)0x500000;
+static void * const sampleDataModuleHeapAddress = (void*)0x600000;
+
+#define HEAP_MEMORY_SIZE (64*1024*1024)
 
 
 typedef int (*EntryPoint)();
@@ -94,7 +99,14 @@ void * initializeKernelBinary()
 	initVideo();
 	initKb();
 	load_idt();
+	memInit((char *) sampleDataModuleHeapAddress, HEAP_MEMORY_SIZE);
+	initScheduler();
+	
+	char * argV[] = {"Shell init"};
+	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	_hlt();
 
+	sysWrite(2, (uint64_t)"Hola", 4, 0,0);
 	return getStackBase();
 }
 
@@ -119,6 +131,16 @@ int main()
 
 	ncPrint("[Finished]");
 	ncClear();
+
+	// initVideo();
+	// initKb();
+	// load_idt();
+	// memInit((char *) sampleDataModuleHeapAddress, HEAP_MEMORY_SIZE);
+	// initScheduler();
+	
+	// char * argV[] = {"Shell init"};
+	// addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	// _hlt();
 	
 	return 0;
 }

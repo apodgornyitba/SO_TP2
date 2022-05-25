@@ -185,26 +185,23 @@ uint64_t sysPrintPCS(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint
 
 uint64_t sysOpenSem(uint64_t sem_id, uint64_t initialValue, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  semOpen( (uint32_t) sem_id, initialValue);
-  return 0;
+  return semOpen( (uint32_t) sem_id, initialValue);
+  
 }
 
 uint64_t sysCloseSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  semClose( (uint32_t) sem_id );
-  return 0;
+  return semClose( (uint32_t) sem_id );
 }
 
 uint64_t sysWaitSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  semWait( (uint32_t) sem_id);
-  return 0;
+  return semWait( (uint32_t) sem_id);
 }
 
 uint64_t sysPostSem(uint64_t sem_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  semPost( (uint32_t) sem_id);
-  return 0;
+  return semPost( (uint32_t) sem_id);
 }
 
 uint64_t sysPrintSems(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
@@ -213,23 +210,28 @@ uint64_t sysPrintSems(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uin
   return 0;
 }
 
-/*
-int64_t my_sem_open(char *sem_id, uint64_t initialValue)
+uint64_t sysPipeOpen(uint64_t pipe_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  return 0;
+  return pipeOpen(pipe_id);
 }
 
-int64_t my_sem_wait(char *sem_id)
+uint64_t sysPipeClose(uint64_t pipe_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  return 0;
+  return pipeClose(pipe_id);
 }
 
-int64_t my_sem_post(char *sem_id)
+uint64_t sysPipeRead(uint64_t pipe_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  return 0;
+  return pipeRead(pipe_id);
 }
 
-int64_t my_sem_close(char *sem_id)
+uint64_t sysPipeWrite(uint64_t pipe_id, uint64_t str, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
+  return pipeWrite(pipe_id, (char *) str);
+}
+
+uint64_t sysPrintPipe(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  pipeStatus();
   return 0;
-}*/
+}

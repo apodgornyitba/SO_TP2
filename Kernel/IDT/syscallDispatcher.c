@@ -32,8 +32,11 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysWaitSem, //23
     sysPostSem, //24
     sysPrintSems, //25
-
-    //AREGAR LAS SYSCALLS QUE FALTAN
+    sysPipeOpen, //26
+    sysPipeClose, //27
+    sysPipeRead, //28
+    sysPipeWrite, //29
+    sysPrintPipe, //30
     };
 
 uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)

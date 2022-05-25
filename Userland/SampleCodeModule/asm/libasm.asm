@@ -557,6 +557,94 @@ my_print_sems:
     leave
     ret 
 
+;my_pipe_open - Open pipe
+my_pipe_open:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 26
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret        
+
+;my_pipe_close - close pipe
+my_pipe_close:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 27
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret        
+
+;my_pipe_read - read from pipe
+my_pipe_read:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi, rdi
+    mov rdi, 28
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret
+
+;my_pipe_write - write at pipe
+my_pipe_write:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+    push rdx
+
+    mov rdx, rsi
+    mov rsi, rdi
+    mov rdi, 29
+    int 80h
+    
+    pop rdx
+    pop rsi
+    pop rdi
+    
+    leave
+    ret
+
+;my_print_pipes - imprime la lista de procesos
+my_print_pipes:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rdi, 30
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret
+
 ret;opCodeExc - Programa de prueba para excepcion de operacion invalido     
 opCodeExc:
     UD2

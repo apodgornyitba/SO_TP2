@@ -2,7 +2,7 @@ GLOBAL cpuVendor
 GLOBAL getKey
 GLOBAL getReg
 GLOBAL getMem
-
+;NUEVAS FUNCIONES
 GLOBAL callTimerTick
 GLOBAL _xchg
 

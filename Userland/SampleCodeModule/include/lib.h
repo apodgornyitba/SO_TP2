@@ -32,8 +32,11 @@ int my_sem_wait(char *sem_id);
 int my_sem_post(char *sem_id);
 int my_sem_close(char *sem_id);
 int my_print_sems();
-
-
+int my_pipe_open(int pipe_id);
+int my_pipe_write(int pipe_id);
+int my_pipe_read(int pipe_id);
+int my_pipe_close(int pipe_id);
+int my_print_pipes();
 
 
 #endif
