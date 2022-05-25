@@ -19,7 +19,7 @@ GLOBAL _syscallHandler
 EXTERN syscallDispatcher
 EXTERN irqDispatcher
 EXTERN exceptionDispatcher
-EXTERN getStackBase
+EXTERN scheduler
 
 SECTION .text
 
@@ -76,23 +76,24 @@ SECTION .text
 
 ;LINK DE APOYO: http://cse.unl.edu/~goddard/Courses/CSCE351/IntelArchitecture/IntelInterupts.pdf
 %macro exceptionHandler 1
-
-	mov rsi, rsp ;Puntero al stack generado por la excepcion
 	pushState
-	mov rdi, %1 ; pasaje de parametro
-	call exceptionDispatcher
-	popState
 
-	sti ;Reactivo las interrupciones
-	call getStackBase
-	mov [rsp + 3*8], rax ; restablezco el stack
-	mov rax, 0x400000 ; Direccion del SampleCodeModule
-	mov [rsp], rax
-	iretq ; Reinicio el shell
+	mov rdi, %1 ; pasaje de parametro
+	mov rsi, rsp ;Puntero al stack generado por la excepcion
+	call exceptionDispatcher
+
+	;Al matar el proceso luego de una excepcion no hace falta retornar ni reestablecer el stack
+	
+	;popState
+
+	;sti ;Reactivo las interrupciones
+	;call getStackBase
+	;mov [rsp + 3*8], rax ; restablezco el stack
+	;mov rax, 0x400000 ; Direccion del SampleCodeModule
+	;mov [rsp], rax
+	;iretq ; Reinicio el shell
 
 %endmacro
-
-
 
 _hlt:
 	sti
@@ -127,7 +128,28 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
-	irqHandlerMaster 0
+	;ARREGLAR
+	;Realizamos el irq00Handler manualmente ya que queremos llamar al scheduler cada vez que se llama al timer tick
+	pushState
+	push fs
+	push gs
+
+	mov rdi, 0 ; pasaje de parametro
+	mov rsi, rsp ;pasaje de parametro
+	call irqDispatcher
+
+	;mov rdi, rsp
+	;call scheduler
+	;mov rsp, rax
+
+	;signal pic EOI (End of Interrupt)
+	mov al, 20h
+	out 20h, al
+
+	pop gs
+	pop fs
+	popState
+	iretq
 
 ;Keyboard
 _irq01Handler:

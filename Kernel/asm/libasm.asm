@@ -171,7 +171,7 @@ getMem:
 
 _xchg:
 	mov rax, rsi
-	xchg [rdi], eax		; put eax in [rdi] and [rdi] in eax
+	xchg [rdi], eax		;put eax in [rdi] and [rdi] in eax
 	ret    
 
 callTimerTick:
