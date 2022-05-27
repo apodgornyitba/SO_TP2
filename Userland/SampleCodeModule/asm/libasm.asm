@@ -31,10 +31,11 @@ GLOBAL my_sem_wait
 GLOBAL my_sem_post
 GLOBAL my_print_sems
 
-
-
-
-
+GLOBAL my_pipe_open
+GLOBAL my_pipe_close
+GLOBAL my_pipe_write
+GLOBAL my_pipe_read
+GLOBAL my_print_pipes
 
 
 ; read - lee de un fd determinado

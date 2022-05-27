@@ -121,7 +121,8 @@ int scanf(const char *format, ...)
             switch (format[fmtIdx])
             {
                 case 'd':
-                    *(int *)va_arg(args, int *) = strToInt(&buffer[bufferIdx], &auxNum);
+                    *(int *)va_arg(args, int *) = strToInt(&buffer[bufferIdx]);
+                    auxNum = strlen(&buffer[bufferIdx]);
                     bufferIdx += auxNum;
                     break;
                 case 'c':
@@ -155,7 +156,7 @@ int getChar()
     return buff[0];
 }
 
-int strlen(const char *s)
+int strlen(char * s)
 {
     int i;
     for (i = 0; s[i] != '\0'; i++);
@@ -216,22 +217,35 @@ char *strcpy(char *destination, const char *source)
  }
 
  //LINK DE APOYO: https://www.geeksforgeeks.org/write-your-own-atoi/
- int strToInt(char *str, int* size)
+ int strToInt(char *str)
  {
 
-    *size=0;
-     int res = 0;
-     int i = 0;
+    int n = strlen(str);
+    int mult = 1;
+    int number = 0;
+    n = (int) n < 0 ? -n : n;
 
-     for (; str[i] != '\0'; i++)
-     {
-         if (str[i] < '0' || str[i] > '9')
-             return res;
-         res = res * 10 + str[i] - '0';
-         *size += 1;
-     }
+    while(n--){
+        if((str[n] < '0' || str[n] > '9') && str[n] != '-'){
+            if(number)
+                break;
+            else
+                continue;
+        }
 
-     return res;
+        if(str[n] == 'n'){
+            if(number){
+                number = -number;
+                break;
+            }
+        }
+        else {
+            number += (str[n] - '0') * mult;
+            mult *= 10;
+        }
+    }
+
+    return number;
 }
 
 void swap(char *x, char *y)
@@ -376,4 +390,17 @@ int hexaToInt(char* num){
     }
 
     return decVal;
+}
+
+void sleep(unsigned int seconds)
+{
+      unsigned int limitTime = seconds + getSecondsElapsed();
+      while (getSecondsElapsed() < limitTime)
+            ;
+}
+
+int getSecondsElapsed()
+{
+      int t = ticks();
+      return t / 18;
 }

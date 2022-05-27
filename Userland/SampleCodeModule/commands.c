@@ -3,6 +3,7 @@
 #include <shell.h>
 #include <lib.h>
 #include <libc.h>
+#include <phylo.h>
 #include <tests.h>
 
 // #ifdef FREE_LIST
@@ -109,7 +110,7 @@ int killPCS(int argc, char ** argv){
         return -1;
     }
     //ARREGLAR STRTOINT PARA QUE RECIBA UN SOLO PARAMETRO
-    int pid = strToInt(argv[1], strlen((const char *)argv[1]));
+    int pid = strToInt(argv[1]);
     my_kill(pid);
     return 0;
 }
@@ -119,8 +120,8 @@ int nicePCS(int argc, char ** argv){
         printf("Invalid amount of arguments. Use: nice <PID> <PRIORITY>\n");
         return -1;
     }
-    int pid = strToInt(argv[1], strlen((const char *)argv[1]));
-    int prio = strToInt(argv[2], strlen((const char *)argv[2]));
+    int pid = strToInt(argv[1]);
+    int prio = strToInt(argv[2]);
     my_nice(pid, prio);
     return 0;
 }
@@ -130,7 +131,7 @@ int blockPCS(int argc, char ** argv){
         printf("Invalid amount of arguments. Use: block <PID>\n");
         return -1;
     }
-    int pid = strToInt(argv[1], strlen((const char *)argv[1]));
+    int pid = strToInt(argv[1]);
     my_block(pid);
     return 0;
 }
@@ -140,7 +141,7 @@ int unblockPCS(int argc, char ** argv){
         printf("Invalid amount of arguments. Use: unblock <PID>\n");
         return -1;
     }
-    int pid = strToInt(argv[1], strlen((const char *)argv[1]));
+    int pid = strToInt(argv[1]);
     my_unblock(pid);
     return 0;
 }
@@ -211,14 +212,13 @@ static int isVowel(char c){
 }
 
 int printPipes(){
-    // my_print_pipes();
-    // AGREGAR SYSCALLS DE PIPES AL LIBASM.ASM
+    my_print_pipes();
     return 0;
 }
 
 
 int philosopher(int argc, char ** argv){
-    // startPhylo();
+    start_philosopher(argc, argv);
     return 0;
 }
 

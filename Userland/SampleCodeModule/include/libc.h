@@ -23,7 +23,7 @@ int getChar();
 int readLn();
 //IN: String
 //OUT: Longitud del string
-int strlen(const char *s);
+int strlen(char *s);
 //IN: Buffer destino, String origen
 //OUT: Referencia al buffer destino con el source copiado
 char *strcpy(char *destination, const char *source);
@@ -32,7 +32,7 @@ char *strcpy(char *destination, const char *source);
 char *strcpyTilSpace(char *destination, const char *source);
 //IN: String que representa un numero, longitud del string
 //OUT: String convertido en integer
-int strToInt(char *str, int *size);
+int strToInt(char *str);
 //IN: Integer, buffer, base numerica a convertir
 //OUT: referencia al buffer
 char *intToStr(int num, char *str, int base);
@@ -49,5 +49,7 @@ char *intToHexa(long long num, char *str, int bytes);
 //IN: hexa  a convertir
 //OUT: numero
 int hexaToInt(char *num);
+void sleep(unsigned int seconds);
+int getSecondsElapsed();
 
 #endif

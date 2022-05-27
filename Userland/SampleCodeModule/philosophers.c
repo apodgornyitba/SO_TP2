@@ -1,140 +1,187 @@
-//REALIZAR LA IMPLEMENTACION ?--> REALIZAR LAS MODIFICACIONES Y BUSCAR FUENTE (TODOS LO TIENEN IGUAL)
-/*
-#define THINKING 0
-#define HUNGRY 1
-#define EATING 2
+// REALIZAR LA IMPLEMENTACION ?--> REALIZAR LAS MODIFICACIONES Y BUSCAR FUENTE (TODOS LO TIENEN IGUAL)
 
-#define DEAULT_PHILO_COUNT 5
-#define MAX_PHILO_COUNT 32
-#define MUTEX_ID 128
-#define SEMAPHORE_MIN_ID 129
+// https://github.com/pchapin/tutorialpthread/blob/master/philosophers.c
 
-#define LEFT(x) (((x)+philoCount-1)%philoCount)
-#define RIGHT(x) (((x)+1)%philoCount)
+#include <phylo.h>
 
-static uint8_t philoVector[MAX_PHILO_COUNT];
-static int philoPID[MAX_PHILO_COUNT];
-static int philoCount;
+#define MAX_PHILOS 8
+#define BASE_PHILOS 4
+#define MUTEX_ID "999"
+#define BASE_SEM_ID "1000"
 
-void tryToEat(int idx) {
-    philoVector[idx] = HUNGRY;
-    while (philoVector[idx] == HUNGRY) {
-        _semwait(MUTEX_ID);
-        if (philoVector[idx] == HUNGRY && philoVector[LEFT(idx)] != EATING && philoVector[RIGHT(idx)] != EATING) {
-            philoVector[idx] = EATING;
-            _sempost(SEMAPHORE_MIN_ID + idx);
-        }
-        _sempost(MUTEX_ID);
-        _semwait(SEMAPHORE_MIN_ID + idx);
-    }
+typedef enum
+{
+  THINKING = 1,
+  EATING = 2,
+  HUNGRY = 3,
+} STATE;
+
+typedef struct Philosopher
+{
+  int pid;
+  int sem;
+  STATE state;
+} Philosopher;
+
+Philosopher *philos[MAX_PHILOS];
+static int actualPhilosopherCount = 0;
+static int tableMutex;
+static int problemRunning;
+static char *tmpBuffer;
+
+#define RIGHT(i) ((i) + 1) % (actualPhilosopherCount)                         /* number of i’s right neighbor */
+#define LEFT(i) ((i) + actualPhilosopherCount - 1) % (actualPhilosopherCount) /* number of i’s left neighbor */
+
+void philo(int argc, char *argv[]);
+void takeForks(int i);
+void placeForks(int i);
+void test(int i);
+int addPhilosopher();
+int removePhilosopher();
+void printTable();
+
+void philo(int argc, char *argv[])
+{
+  int idx = strToInt(argv[1]);
+  while (problemRunning)
+  {
+    takeForks(idx);
+    sleep(1);
+    placeForks(idx);
+    sleep(1);
+  }
 }
 
-void stopEating(int idx) {
-    _semwait(MUTEX_ID);
-    philoVector[idx] = THINKING;
-    if (philoVector[LEFT(idx)] == HUNGRY)
-        _sempost(SEMAPHORE_MIN_ID + LEFT(idx));
-    if (philoVector[RIGHT(idx)] == HUNGRY)
-        _sempost(SEMAPHORE_MIN_ID + RIGHT(idx));
-    _sempost(MUTEX_ID);
+void takeForks(int i)
+{
+  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  philos[i]->state = HUNGRY;
+  test(i);
+  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_wait(intToStr(philos[i]->sem, tmpBuffer, 10));
 }
 
-void philosophers(unsigned int argc, const char** argv) {
-    int idx;
-    if (argc > 1)
-        strToIntBase(argv[1], strlen(argv[1]), 10, &idx, 1);
-
-    while (1) {
-        //Thinking
-        tryToEat(idx);
-        //Eating
-        stopEating(idx);
-    }
+void placeForks(int i)
+{
+  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  philos[i]->state = THINKING;
+  test(LEFT(i));
+  test(RIGHT(i));
+  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
 }
 
-void philosopherPrinter() {
-    Time t = getCurrentTime();
-    while(1) {
-        Time newT = getCurrentTime();
-        if(t.seconds != newT.seconds) {
-            t = newT;
-            for (int i = 0; i < philoCount; i++) {
-                char * printState;
-                switch (philoVector[i]) {
-                    case EATING:
-                        printState = "E";
-                        break;
-                    default:
-                        printState = ".";
-                        break;
-                }
-
-                printf("%s ", printState);
-            }
-            putchar('\n');
-        }
-    }
+void test(int i)
+{
+  if (philos[i]->state == HUNGRY && philos[LEFT(i)]->state != EATING && philos[RIGHT(i)]->state != EATING)
+  {
+    philos[i]->state = EATING;
+    my_sem_post(intToStr(philos[i]->sem, tmpBuffer, 10));
+  }
 }
 
-void philosopherManager() {
-    _systerminalraw(1);
+void start_philosopher(int argc, char *argv[])
+{
+  problemRunning = 1;
+  tableMutex = my_sem_open(MUTEX_ID, 1);
+  printf("Welcome to the Philosophers Problem!\n");
+  printf("You start with 4 philosophers and have a maximum of 8 philosophers.\n");
+  printf("You can add them with \'a\', delete them with \'d\' and exit the problem with \'q\'.\n");
+  printf("The state of each will be displayed as E (Eating) or . (HUNGRY)\n\n");
 
-    philoCount = DEAULT_PHILO_COUNT;
-    
-    while (1) {
+  printf("Waiting for phylos...\n\n");
 
-        int printerpid;
-        int modified = 0;
-        int end = 0;
+  sleep(5);
 
-        _semopen(MUTEX_ID, 1);
+  for (int i = 0; i < BASE_PHILOS; i++)
+    addPhilosopher();
+  char *args[] = {"PrintTable"};
+  int printTablePid = my_create_process((char *) &printTable, 1, args, 0, NULL);
+  while (problemRunning)
+  {
 
-        char idstr[10];
-        char * argv[] = {"philosopher", idstr, 0};
-
-        for (int i = 0; i < philoCount; i++) {
-            uintToBase(i, idstr, 10);
-            _semopen(SEMAPHORE_MIN_ID + i, 0);
-            philoPID[i] = _syscreateprocess(&philosophers, 2, argv);
-        }
-        char * printerArgs[] = {"phprinter",0};
-        printerpid = _syscreateprocess(&philosopherPrinter, 1, printerArgs);
-
-        char buf[2];
-        while (_sysread(0,buf,1)) {
-            switch (buf[0]) {
-            case 'a':
-                if (philoCount == MAX_PHILO_COUNT)
-                    continue;
-                modified = 1;
-                break;
-            case 'r':
-                if (philoCount == 2)
-                    continue;
-                modified = -1;
-                break;
-            case 't':
-                end = 1;
-                break;
-            default:
-                continue;
-            }
-            break;
-        }
-        
-        _syskill(printerpid);
-        for (int i = 0; i < philoCount; i++) {
-            _syskill(philoPID[i]);
-            _semclose(SEMAPHORE_MIN_ID + i);
-        }
-        _semclose(MUTEX_ID);
-
-        if (end) break;
-
-        philoCount += modified;
+    char key = getChar();
+    switch (key)
+    {
+    case 'a':
+      if (addPhilosopher() == -1)
+        printf("Can\'t add another philosopher. Maximum 8 philosophers.\n");
+      else
+        printf("A new philosopher joined!\n");
+      break;
+    case 'd':
+      if (removePhilosopher() == -1)
+        printf("Can\'t remove another philosopher. Minimum 4 philosophers.\n");
+      else
+        printf("One philosopher has left!\n");
+      break;
+    case 'q':
+      printf("Program Finished!\n");
+      problemRunning = 0;
+      break;
+    default:
+      break;
     }
+  }
 
-    
+  for (int i = 0; i < actualPhilosopherCount; i++)
+  {
+    my_sem_close(intToStr(philos[i]->sem, tmpBuffer, 10));
+    my_kill(philos[i]->pid);
+    my_free(philos[i]);
+  }
+  actualPhilosopherCount = 0;
+  my_kill(printTablePid);
+  my_sem_close(MUTEX_ID);
+}
 
-    _systerminalraw(0);
-}*/
+int addPhilosopher()
+{
+  if (actualPhilosopherCount == MAX_PHILOS)
+    return -1;
+
+  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  Philosopher *auxPhilo = my_malloc(sizeof(Philosopher));
+  if (auxPhilo == NULL)
+    return -1;
+  auxPhilo->state = THINKING;
+  auxPhilo->sem = my_sem_open(BASE_SEM_ID + actualPhilosopherCount, 1);
+  char buffer[3];
+  char *name[] = {"philosopher", intToStr(actualPhilosopherCount, buffer, 10)};
+  auxPhilo->pid = my_create_process((char *) &philo, 2, name, 0, NULL);
+  philos[actualPhilosopherCount++] = auxPhilo;
+  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+  return 0;
+}
+
+int removePhilosopher()
+{
+  if (actualPhilosopherCount == BASE_PHILOS)
+  {
+    return -1;
+  }
+
+  actualPhilosopherCount--;
+  Philosopher *chosenPhilo = philos[actualPhilosopherCount];
+  my_sem_close(intToStr(chosenPhilo->sem, tmpBuffer, 10));
+  my_kill(chosenPhilo->pid);
+  my_free(chosenPhilo);
+  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+
+  return 0;
+}
+
+void printTable(int argc, char *argv[])
+{
+  while (problemRunning)
+  {
+    my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+    for (int i = 0; i < actualPhilosopherCount; i++)
+    {
+      philos[i]->state == EATING ? putChar('E') : putChar('.');
+      putChar(' ');
+    }
+    putChar('\n');
+    my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+    my_yield();
+  }
+}
