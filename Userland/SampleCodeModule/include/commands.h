@@ -2,7 +2,7 @@
 #include <tests.h>
 #include <syscall.h>
 
-#define CMD_COUNT 29
+#define CMD_COUNT 24
 
 typedef int (*CmdHandler)(int argc, const char* argv[]);
 
