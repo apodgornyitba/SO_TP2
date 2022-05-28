@@ -1,7 +1,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-void shellMain();
-void initialize();
+#define MAX_ARGUMENTS 5
+
+void startShell(int argc, char **argv);
 
 #endif

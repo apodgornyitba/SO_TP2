@@ -4,7 +4,6 @@
 #include <lib.h>
 #include <stdarg.h>
 
-#define BUFFER_SIZE 512
 char buffer[BUFFER_SIZE] = {0};
 int buffSize=0;
 

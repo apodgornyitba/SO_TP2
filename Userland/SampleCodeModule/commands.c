@@ -19,7 +19,7 @@ int getHelp() {
     printf("\n~ help: Informacion de comandos.\n");
     printf("~ datetime: Se imprime el tiempo y la fecha actual.\n");
     printf("~ clear: Se limpia la pantalla.\n");
-    printf("~ inforeg: Se imprimen los valores de los registros. Utilizar la tecla CTRL para actualizar los valores\n");
+    printf("~ inforeg: Se imprimen los valores de los registros. Utilizar la tecla CTRL para actualizar los valores de los registros\n");
     printf("~ divex: Para lanzar una excepcion por division por cero.\n");
     printf("~ opex: Para lanzar una excepcion por operador de codigo invalido.\n");
     //COMANDOS NUEVOS
