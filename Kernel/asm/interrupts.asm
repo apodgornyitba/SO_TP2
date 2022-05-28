@@ -83,15 +83,7 @@ SECTION .text
 	call exceptionDispatcher
 
 	;Al matar el proceso luego de una excepcion no hace falta retornar ni reestablecer el stack
-	
-	;popState
 
-	;sti ;Reactivo las interrupciones
-	;call getStackBase
-	;mov [rsp + 3*8], rax ; restablezco el stack
-	;mov rax, 0x400000 ; Direccion del SampleCodeModule
-	;mov [rsp], rax
-	;iretq ; Reinicio el shell
 
 %endmacro
 
@@ -128,7 +120,6 @@ picSlaveMask:
 
 ;8254 Timer (Timer Tick)
 _irq00Handler:
-	;ARREGLAR
 	;Realizamos el irq00Handler manualmente ya que queremos llamar al scheduler cada vez que se llama al timer tick
 	pushState
 	push fs

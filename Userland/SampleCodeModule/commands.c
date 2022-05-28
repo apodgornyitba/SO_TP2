@@ -15,7 +15,7 @@ static int isVowel(char c);
 
 static const char *registers[] = {"RAX:", "RBX:", "RCX:", "RDX:", "RBP:", "RDI:", "RSI:", "R8 :", "R9 :", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:"};
 
-int getHelp() {
+void getHelp() {
     printf("\n~ help: Informacion de comandos.\n");
     printf("~ datetime: Se imprime el tiempo y la fecha actual.\n");
     printf("~ clear: Se limpia la pantalla.\n");
@@ -42,21 +42,18 @@ int getHelp() {
     printf("~ testpcs: Testeo de procesos, scheduler y cambio de contexto\n");
     printf("~ testsync: Testeo de sincronizacion de procesos\n");
     printf("~ exit: Abortar la ejecucion.\n");
-    return 0;
 
 }
 
-int printDateTime() {
+void printDateTime() {
    printf("%d:%d:%d\n%d\\%d\\%d\n", DateTime(2), DateTime(1), DateTime(0),DateTime(3),DateTime(4),DateTime(5));
-   return 0;
 }
 
-int clear() {
+void clear() {
     scClear();
-    return 0;
 }
 
-int printRegisters(){
+void printRegisters(){
     unsigned long long buff[17];
     char hexa[20];
     printf("\n");
@@ -67,31 +64,27 @@ int printRegisters(){
         printf("%s\n",hexa);
     }
     printf("\n");
-    return 0;
+    
 }
 
-int divExc(){
+void divExc(){
     int a = 1, b = 0;
     a = a/b;
-    return 0;
 }
 
-int opExc() {
+void opExc() {
     opCodeExc();
-    return 0;
 }
 
-int printMem(){
+void printMem(){
     print_mm();
-    return 0;
 }
 
-int printPCS(){
+void printPCS(){
     my_print_pcs();
-    return 0;
 }
 
-int loop() {
+void loop() {
     int t = 0;
     long pid = my_getpid();
 
@@ -99,78 +92,72 @@ int loop() {
         t = ticks();
         if(t % 18 == 0 ) {
             printf("PID: %d\n", pid);
-        }
+     
+}   }
     }
-    return 0;
-}
  
-int killPCS(int argc, char ** argv){
+void killPCS(int argc, char ** argv){
     if (argc != 2){
         printf("Invalid amount of arguments. Use: kill <PID>\n");
-        return -1;
+        return;
     }
     //ARREGLAR STRTOINT PARA QUE RECIBA UN SOLO PARAMETRO
     int pid = strToInt(argv[1]);
     my_kill(pid);
-    return 0;
 }
 
-int nicePCS(int argc, char ** argv){
+void nicePCS(int argc, char ** argv){
     if(argc != 3){
         printf("Invalid amount of arguments. Use: nice <PID> <PRIORITY>\n");
-        return -1;
+        return;
     }
     int pid = strToInt(argv[1]);
     int prio = strToInt(argv[2]);
     my_nice(pid, prio);
-    return 0;
 }
 //VER COMANDO
-int blockPCS(int argc, char ** argv){
+void blockPCS(int argc, char ** argv){
     if(argc != 2){
         printf("Invalid amount of arguments. Use: block <PID>\n");
-        return -1;
+        return;
     }
     int pid = strToInt(argv[1]);
     my_block(pid);
-    return 0;
+
 }
 
-int unblockPCS(int argc, char ** argv){
+void unblockPCS(int argc, char ** argv){
     if(argc != 2){
         printf("Invalid amount of arguments. Use: unblock <PID>\n");
-        return -1;
+        return;
     }
     int pid = strToInt(argv[1]);
     my_unblock(pid);
-    return 0;
 }
 
-int printSems(){
+void printSems(){
     my_print_sems();
-    return 0;
 }
 
-int cat(int argc, char ** argv){
+void cat(int argc, char ** argv){
 
     if(argc != 1){
         printf("Invalid amount of arguments. Use: cat\n");
-        return -1;
+        return;
     }
     
     int c;
 
     while((c=getChar()) != -1){
-        putChar(c);
+        return;
     }
-    return 0;
 }
 
-int wc(int argc, char ** argv){
+void wc(int argc, char ** argv) {
     
-    if(argc != 1){
+    if(argc != -1) {
         printf("Invalid amount of arguments. Use: wc\n");
-        return -1;
+        return;
     }
     
     int c;
@@ -180,25 +167,25 @@ int wc(int argc, char ** argv){
         putChar(c);
         if((char) c == '\n')
             count++;
-    }
     printf("\n Cantidad de lineas: %d\n", count);
-    return 0;
+    return;
+    }
 }
 
-int filter(int argc, char ** argv){
+void filter(int argc, char ** argv){
     
-    if(argc != 1){
+    if(argc != -1){
         printf("Invalid amount of arguments. Use: filter\n");
-        return -1;
+        return;
     }
     
     int c;
     while((c=getChar()) != -1){
         if(isVowel(c)){
-            putChar(c);
-        }
+     
     }
-    return 0;
+    return;
+    }
 }
 
 static int isVowel(char c){
@@ -206,40 +193,33 @@ static int isVowel(char c){
         c += 'a' - 'A';
     }
     if( c== 'a' || c == 'e' || c == 'i' || c== 'o' || c == 'u') {
-        return 1;
+        return -1;
     }
     return 0;
 }
 
-int printPipes(){
+void printPipes(){
     my_print_pipes();
-    return 0;
 }
 
 
-int philosopher(int argc, char ** argv){
-    start_philosopher(argc, argv);
-    return 0;
+void philosopher(int argc, char ** argv){
+    philosopher(argc, argv);
 }
 
-int testMM(int argc, char ** argv){
-    test_mm(1, (char**) MAX_MEMORY); //RECIBE ARGUMENTOS
-    return 0;
+void testMM(int argc, char ** argv){
+     test_mm(1, (char**) MAX_MEMORY);  //RECIBE ARGUMENTOS
 }
 
-int testPrio(int argc, char ** argv){
+void testPrio(int argc, char ** argv){
     test_prio();
-    return 0;
 }
 
-int testPCS(int argc, char ** argv){
+void testPCS(int argc, char ** argv){
     test_processes(1, (char **)10); //RECIBE ARGUMENTOS
-    return 0;
 }
-
-int testSync(int argc, char ** argv){
+void testSync(int argc, char ** argv){
     test_sync(argc, argv);
-    return 0;
 }
 
 

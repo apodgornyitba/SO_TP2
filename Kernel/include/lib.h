@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 
+
 void * memset(void * destination, int32_t character, uint64_t length);
 void * memcpy(void * destination, const void * source, uint64_t length);
 
@@ -20,6 +21,7 @@ char *intToHexa(long long num, char *str, int bytes);
 int strlength(const char *s);
 char *intToStr(int value, char *buffer, int base);
 char *strcopy(char *destination, const char *source);
+int print(char const *fmt, ...);
 int abs(int n);
 
 

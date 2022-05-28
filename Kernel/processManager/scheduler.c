@@ -1,4 +1,5 @@
 #include <scheduler.h>
+#include <lib.h>
 
 static uint64_t currentPID = 0;
 static ProcessList *processes;
@@ -200,20 +201,30 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
       if (entryPoint == NULL)
             return -1;
 
+	sysWrite(2, (uint64_t)"\nHOLA5\n", 7, 0,0);
+
       Process *newProcess = my_malloc(sizeof(Process));
 
-      if (newProcess == NULL)
+      if (newProcess == NULL){
+	      sysWrite(2, (uint64_t)"\nHOLA6\n", 7, 0,0);
             return -1;
+      }
 
       if (createPCB(&newProcess->pcb, argv[0], foreground, fd) == -1)
       {
+	      sysWrite(2, (uint64_t)"\nHOLA7\n", 7, 0,0);
+
             my_free(newProcess);
+
             return -1;
       }
 
       char **argvCopy = my_malloc(sizeof(char *) * argc);
-      if (argvCopy == 0)
+      if (argvCopy == 0){
+      	sysWrite(2, (uint64_t)"\nHOLA8\n", 7, 0,0);
+
             return -1;
+      }
       argsCopy(argvCopy, argv, argc);
 
       newProcess->pcb.argc = argc;
@@ -223,9 +234,11 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
 
       newProcess->state = READY;
       processQueue(newProcess);
-      if (newProcess->pcb.foreground && newProcess->pcb.ppid)
+      if (newProcess->pcb.foreground && newProcess->pcb.ppid){
+	      sysWrite(2, (uint64_t)"\nHOLA9\n", 7, 0,0);
             blockProcess(newProcess->pcb.ppid);
-
+      }
+	sysWrite(2, (uint64_t)"\nHOLAFIN\n", 11, 0,0);
       return newProcess->pcb.pid;
 }
 
@@ -329,15 +342,10 @@ char *stateToStr(State state)
 void printProcess(Process *process)
 {
 
-      if (process != NULL){
-            char tmpBuffer[20];
-            sysWrite(2, (uint64_t)process->pcb.pid, (uint64_t)strlength((const char *)process->pcb.pid), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.foreground, strlength(intToStr(process->pcb.foreground, tmpBuffer, 10)), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.rsp, strlength((const char *)process->pcb.rsp), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.rbp, strlength((const char *)process->pcb.rbp), 0, 0);
-            sysWrite(2, (uint64_t)process->state, strlength(stateToStr(process->state)), 0, 0);
-            sysWrite(2, (uint64_t)process->pcb.name, strlength(process->pcb.name), 0, 0);
-      }
+      if (process != NULL)
+            sysWrite(2, (uint64_t)"\n", 2, 0, 0);
+            print("\n%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
+                  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
 }
 
 void processDisplay()

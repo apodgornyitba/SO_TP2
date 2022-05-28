@@ -11,7 +11,7 @@
 #define USERLAND_INIT_PID 1
 
 static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
-static void shellExecute();
+// static void shellExecute();
 static int getCommandIdx(char *command);
 static int findPipe(int argc, char **argv);
 static void initializePipe(int pipeIndex, int argc, char **argv);
@@ -26,7 +26,7 @@ void startShell(int argc, char **argv) {
   shellExecute();
 }
 
-static void shellExecute() {
+void shellExecute() {
   char input[BUFFER_SIZE] = {0};
   int foreground;
 
@@ -63,7 +63,8 @@ static void shellExecute() {
     int commandIdx = getCommandIdx(argv[0]);
 
     if (commandIdx >= 0) {
-      my_create_process((void (*)(int, char **))commands[commandIdx].handler, argc, (char **)argv, foreground, NULL);
+      printf("%s\n", input);
+      my_create_process((void (*)(int, char **))commands[commandIdx].command, argc, (char **)argv, foreground, NULL);
     } else {
       printf("\nComando invalido: use help\n");
     }
@@ -164,7 +165,7 @@ static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground
   fd[0] = fdin;
   fd[1] = fdout;
 
-  return my_create_process((void (*)(int, char **)) commands[commandIdx].handler, argc, argv,foreground, fd);
+  return my_create_process((void (*)(int, char **)) commands[commandIdx].command, argc, argv,foreground, fd);
 }
 
 static int getCommandIdx(char *command) {

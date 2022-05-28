@@ -4,64 +4,63 @@
 
 #define CMD_COUNT 24
 
-typedef int (*CmdHandler)(int argc, const char* argv[]);
+typedef struct t_command t_command;
 
-typedef struct {
+typedef struct t_command{
+	void(*command)(int, char**);
 	const char* name;
-	CmdHandler handler;
-	uint8_t isBackground;
 } Command;
 
-int getHelp();
-int printDateTime();
-int clear();
-int printRegisters();
-int divExc();
-int opExc();
-int printMem();
-int printPCS();
-int loop();
-int killPCS();
-int nicePCS();
-int blockPCS();
-int unblockPCS();
-int printSems();
-int cat();
-int wc();
-int filter();
-int printPipes();
-int philosopher();
-int testMM();
-int testPrio();
-int testPCS();
-int testSync();
+void getHelp();
+void printDateTime();
+void clear();
+void printRegisters();
+void divExc();
+void opExc();
+void printMem();
+void printPCS();
+void loop();
+void killPCS();
+void nicePCS();
+void blockPCS();
+void unblockPCS();
+void printSems();
+void cat();
+void wc();
+void filter();
+void printPipes();
+void philosopher();
+void testMM();
+void testPrio();
+void testPCS();
+void testSync();
 
 
 
 static Command commands[] = {
-	{"help", getHelp, 0},
-	{"time", printDateTime, 0},
-	{"clear", clear, 0},
-	{"inforeg", printRegisters,0},
-	{"divex", divExc,0},
-	{"opex", opExc,0},
-	{"mem", printMem,0},
-	{"ps", printPCS, 0},
-	{"loop", loop,0},
-	{"kill", killPCS,0},
-	{"nice", nicePCS,0},
-	{"block", blockPCS},
-	{"unblock", unblockPCS},
-	{"sem", printSems,0},
-	{"cat", cat,0},
-	{"wc", wc,0},
-	{"filter", filter,0},
-	{"pipe", printPipes,0},
-	{"phylo", philosopher,0},
+	{&getHelp, "help"},
+	{&printDateTime, "time"},
+	{&clear, "clear"},
+	{&printRegisters, "inforeg"},
+	{&divExc, "divex"},
+	{&opExc, "opex"},
+	{&printMem,"mem"},
+	{&printPCS,"ps"},
+	{&loop, "loop"},
+	{&killPCS, "kill"},
+	{nicePCS, "nice"},
+	{blockPCS, "block", },
+	{unblockPCS, "unblock"},
+	{printSems, "sem"},
+	{&cat, "cat"},
+	{&wc, "wc"},
+	{&filter, "filter"},
+	{&printPipes, "pipe"},
+	{&philosopher, "phylo"},
     
-	{"test_mm", (CmdHandler)test_mm,0},
-	{"test_prio", (CmdHandler)test_prio,0},
-	{"test_processes", (CmdHandler)test_processes,0},
-	{"test_sync", (CmdHandler)test_sync,0},
+	{&testMM, "test_mm"},
+	{&testPrio, "test_prio"},
+	{&testPCS, "test_processes"},
+	{&testSync, "test_sync"},
 	// {"test_no_sync", test_no_sync,0}
 };

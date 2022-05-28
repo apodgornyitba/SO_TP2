@@ -50,98 +50,60 @@ void * getStackBase()
 
 void * initializeKernelBinary()
 {
-	// char buffer[10];
-	
-
-	// ncPrint("[x64BareBones]");
-	// ncNewline();
-
-	// ncPrint("CPU Vendor:");
-	// ncPrint(cpuVendor(buffer));
-	// ncNewline();
-
-	// ncPrint("[Loading modules]");
-	// ncNewline();
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	// ncPrint("[Done]");
-	// ncNewline();
-	// ncNewline();
 
-	// ncPrint("[Initializing kernel's binary]");
-	// ncNewline();
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
-	// ncPrint("  text: 0x");
-	// ncPrintHex((uint64_t)&text);
-	// ncNewline();
-	// ncPrint("  rodata: 0x");
-	// ncPrintHex((uint64_t)&rodata);
-	// ncNewline();
-	// ncPrint("  data: 0x");
-	// ncPrintHex((uint64_t)&data);
-	// ncNewline();
-	// ncPrint("  bss: 0x");
-	// ncPrintHex((uint64_t)&bss);
-	// ncNewline();
-
-	// ncPrint("[Done]");
-	// ncNewline();
-	// ncNewline();
-	// ncClear();
 
 	//NUESTROS INITS
-	// initVideo();
-	// initKb();
+	initVideo();
+	initKb();
+	load_idt();
+	memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
+	initScheduler();
 
+	char * argV[] = {"Shell init"};
+	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	// addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	ncNewline();
+	processDisplay();
+	ncNewline();
+
+	
+	
+
+	_hlt();
 
 	return getStackBase();
 }
 
 int main()
 {	
-	// ncPrint("[Kernel Main]");
-	// ncNewline();
-	// ncPrint("  Sample code module at 0x");
-	// ncPrintHex((uint64_t)sampleCodeModuleAddress);
-	// ncNewline();
-	// ncPrint("  Calling the sample code module returned: ");
-	// ncPrintHex(((EntryPoint)sampleCodeModuleAddress)());
-	// ncNewline();
-	// ncNewline();
-
-	// ncPrint("  Sample data module at 0x");
-	// ncPrintHex((uint64_t)sampleDataModuleAddress);
-	// ncNewline();
-	// ncPrint("  Sample data module contents: ");
-	// ncPrint((char*)sampleDataModuleAddress);
-	// ncNewline();
-
-	// ncPrint("[Finished]");
-	// ncClear();
-
 	
-	load_idt();
-	initVideo();
-	memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	initScheduler();
-	initKb();
-
-	sysWrite(2, (uint64_t)"\nHOLA3", 7, 0,0);
-
-	char * argV[] = {"Shell init"};
-	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	((EntryPoint)sampleCodeModuleAddress)();
 	
+	// load_idt();
+	// initVideo();
+	// memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
+	// initScheduler();
+	// initKb();
+
+	// sysWrite(2, (uint64_t)"\nHOLA3", 7, 0,0);
+
+	// char * argV[] = {"Shell init"};
+	// addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
 	
-	_hlt();
+
+	// _hlt();
 
 
-	sysWrite(2, (uint64_t)"\nHOLA4", 7, 0,0);
+	// sysWrite(2, (uint64_t)"\nHOLA4", 7, 0,0);
 
 
 	return 0;
