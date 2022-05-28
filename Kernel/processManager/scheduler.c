@@ -337,9 +337,6 @@ void printProcess(Process *process)
             sysWrite(2, (uint64_t)process->pcb.rbp, strlength((const char *)process->pcb.rbp), 0, 0);
             sysWrite(2, (uint64_t)process->state, strlength(stateToStr(process->state)), 0, 0);
             sysWrite(2, (uint64_t)process->pcb.name, strlength(process->pcb.name), 0, 0);
-
-
-
       }
 }
 
@@ -347,11 +344,14 @@ void processDisplay()
 {
       const char * message = "PID      FG       RSP              RBP              STATE        NAME";
       const int length = strlength(message); 
+      
       sysWrite(2, (uint64_t)message, length, 0, 0);
 
 
-      if (currentProcess != NULL)
+      if (currentProcess != NULL){
             printProcess(currentProcess);
+      }
+           
 
       Process *curr = processes->first;
       while (curr)

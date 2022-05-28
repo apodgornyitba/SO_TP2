@@ -49,15 +49,14 @@ uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
 
   if (argc != 2) return -1;
 
-  char * argvDec[] = {argv[0], "-1", argv[1], NULL};
-  char * argvInc[] = {argv[0], "1", argv[1], NULL};
-
   global = 0;
 
   uint64_t i;
   for(i = 0; i < TOTAL_PAIR_PROCESSES; i++){
-    pids[i] = my_create_process("my_process_inc", 3, argvDec, 0, NULL);
-    pids[i + TOTAL_PAIR_PROCESSES] = my_create_process("my_process_inc", 3, argvInc, 0, NULL);
+    char * argv1[] = {"my_process_inc", argv[0], "-1", argv[1]};
+    pids[i] = my_create_process((void (*)(int, char **))&my_process_inc, 4, argv1, 0, NULL);
+    char * argv2[] = {"my_process_inc", argv[0], "1", argv[1]};
+    pids[i + TOTAL_PAIR_PROCESSES] = my_create_process((void (*)(int, char **))&my_process_inc, 4, argv2, 0, NULL);
   }
 
   for(i = 0; i < TOTAL_PAIR_PROCESSES; i++){

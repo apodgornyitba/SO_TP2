@@ -18,7 +18,7 @@ int64_t test_processes(uint64_t argc, char *argv[]){
   uint8_t alive = 0;
   uint8_t action;
   uint64_t max_processes;
-  char * argvAux[] = {0};
+  char * argvAux[] = {"endless_loop"};
 
   if (argc != 1) return -1;
 
@@ -30,7 +30,7 @@ int64_t test_processes(uint64_t argc, char *argv[]){
 
     // Create max_processes processes
     for(rq = 0; rq < max_processes; rq++){
-      p_rqs[rq].pid = my_create_process("endless_loop", 0, argvAux, 0, NULL);
+      p_rqs[rq].pid = my_create_process(&endless_loop, 0, argvAux, 0, NULL);
 
       if (p_rqs[rq].pid == -1){
         printf("test_processes: ERROR creating process\n");

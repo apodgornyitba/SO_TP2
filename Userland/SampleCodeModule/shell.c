@@ -13,13 +13,6 @@
 static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
 static void shellExecute();
 static int getCommandIdx(char *command);
-static void changeUser(int argc, char **argv);
-static void help(int argc, char **argv);
-static void helpTest(int argc, char **argv);
-static void helpShell(int argc, char **argv);
-static void printHelpTable();
-static void printHelpTestTable();
-
 static int findPipe(int argc, char **argv);
 static void initializePipe(int pipeIndex, int argc, char **argv);
 static int handlePipe(int pipeIndex, int argc, char **argv);
@@ -30,7 +23,6 @@ static int pipeId = 70;
 void startShell(int argc, char **argv) {
   scClear();
   printf("Que modulo desea correr? Para conocer los comandos habilitados, escriba HELP \n");
-  my_kill(USERLAND_INIT_PID);
   shellExecute();
 }
 
@@ -71,7 +63,7 @@ static void shellExecute() {
     int commandIdx = getCommandIdx(argv[0]);
 
     if (commandIdx >= 0) {
-      my_create_process((int (*)(int, char **))commands[commandIdx].handler, argc, (char **)argv, foreground, NULL);
+      my_create_process((void (*)(int, char **))commands[commandIdx].handler, argc, (char **)argv, foreground, NULL);
     } else {
       printf("\nComando invalido: use help\n");
     }
@@ -155,7 +147,7 @@ static int handlePipe(int pipeIndex, int argc, char **argv) {
     return -1;
   }
   
-  int endOfFile = EOF;
+  int endOfFile = -1;
   my_pipe_write(pipe, (char *)&endOfFile);
   my_pipe_close(pipe);
   putChar('\n');
@@ -172,7 +164,7 @@ static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground
   fd[0] = fdin;
   fd[1] = fdout;
 
-  return my_create_process(commands[commandIdx].handler, argc, argv,foreground, fd);
+  return my_create_process((void (*)(int, char **)) commands[commandIdx].handler, argc, argv,foreground, fd);
 }
 
 static int getCommandIdx(char *command) {

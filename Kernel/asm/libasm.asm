@@ -13,6 +13,8 @@ cpuVendor:
 	mov rbp, rsp
 
 	push rbx
+    push rcx
+    push rdx
 
 	mov rax, 0
 	cpuid
@@ -26,7 +28,10 @@ cpuVendor:
 
 	mov rax, rdi
 
-	pop rbx
+	pop rdx
+    pop rcx
+    pop rbx
+
 
 	mov rsp, rbp
 	pop rbp

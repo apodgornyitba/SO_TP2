@@ -95,7 +95,7 @@ void start_philosopher(int argc, char *argv[])
   for (int i = 0; i < BASE_PHILOS; i++)
     addPhilosopher();
   char *args[] = {"PrintTable"};
-  int printTablePid = my_create_process((char *) &printTable, 1, args, 0, NULL);
+  int printTablePid = my_create_process(&printTable, 1, args, 0, NULL);
   while (problemRunning)
   {
 
@@ -147,7 +147,7 @@ int addPhilosopher()
   auxPhilo->sem = my_sem_open(BASE_SEM_ID + actualPhilosopherCount, 1);
   char buffer[3];
   char *name[] = {"philosopher", intToStr(actualPhilosopherCount, buffer, 10)};
-  auxPhilo->pid = my_create_process((char *) &philo, 2, name, 0, NULL);
+  auxPhilo->pid = my_create_process(&philo, 2, name, 0, NULL);
   philos[actualPhilosopherCount++] = auxPhilo;
   my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
   return 0;
