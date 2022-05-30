@@ -2,7 +2,7 @@
 #include <tests.h>
 #include <syscall.h>
 
-#define CMD_COUNT 24
+#define CMD_COUNT 23
 
 typedef struct t_command t_command;
 
@@ -48,10 +48,10 @@ static Command commands[] = {
 	{&printPCS,"ps"},
 	{&loop, "loop"},
 	{&killPCS, "kill"},
-	{nicePCS, "nice"},
-	{blockPCS, "block", },
-	{unblockPCS, "unblock"},
-	{printSems, "sem"},
+	{&nicePCS, "nice"},
+	{&blockPCS, "block", },
+	{&unblockPCS, "unblock"},
+	{&printSems, "sem"},
 	{&cat, "cat"},
 	{&wc, "wc"},
 	{&filter, "filter"},
@@ -62,5 +62,4 @@ static Command commands[] = {
 	{&testPrio, "test_prio"},
 	{&testPCS, "test_processes"},
 	{&testSync, "test_sync"},
-	// {"test_no_sync", test_no_sync,0}
 };

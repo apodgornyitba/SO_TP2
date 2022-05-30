@@ -70,13 +70,9 @@ void * initializeKernelBinary()
 
 	char * argV[] = {"Shell init"};
 	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
-	// addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
-	ncNewline();
-	processDisplay();
-	ncNewline();
-
-	
-	
+	// ncNewline();
+	// processDisplay();
+	// ncNewline();
 
 	_hlt();
 

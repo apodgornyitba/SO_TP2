@@ -12,14 +12,14 @@ int main() {
     // printf("\nHOLAFROMSAMPLECODE");
 
     // scClear();
-    printf("\n");
+    // printf("\n");
     printf("Que modulo desea correr? Para conocer los comandos habilitados, escriba HELP \n");
 
     shellExecute();
 
     // char *argv[] = {"Shell"};
-    // my_create_process(startShell, 1, argv, 1, NULL);
+    // my_create_process(&startShell, 1, argv, 1, NULL);
     
-    printPCS();
+    // printPCS();
 	return 0;
 }

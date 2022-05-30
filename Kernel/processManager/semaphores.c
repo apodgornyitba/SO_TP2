@@ -12,12 +12,16 @@ static void removeSemaphore(Semaphore *sem);
 static void blockedProcessesDump(int *blockedProcesses, uint16_t blockedProcessesAmount);
 static void unblockSem(Semaphore *sem);
 
-void acquire(int *lock) {
+void acquire(int *lock)
+{
   while (_xchg(lock, 1) != 0)
     ;
 }
 
-void release(int *lock) { _xchg(lock, 0); }
+void release(int *lock)
+{
+  _xchg(lock, 0);
+}
 
 int semOpen(uint32_t id, uint64_t initialValue) {
   Semaphore *semaphore = getSemaphore(id);

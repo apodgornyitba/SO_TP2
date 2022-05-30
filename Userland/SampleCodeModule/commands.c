@@ -93,12 +93,13 @@ void loop() {
         if(t % 18 == 0 ) {
             printf("PID: %d\n", pid);
      
-}   }
+        }  
     }
+}
  
 void killPCS(int argc, char ** argv){
     if (argc != 2){
-        printf("Invalid amount of arguments. Use: kill <PID>\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: kill <PID>\n");
         return;
     }
     //ARREGLAR STRTOINT PARA QUE RECIBA UN SOLO PARAMETRO
@@ -108,7 +109,7 @@ void killPCS(int argc, char ** argv){
 
 void nicePCS(int argc, char ** argv){
     if(argc != 3){
-        printf("Invalid amount of arguments. Use: nice <PID> <PRIORITY>\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: nice <PID> <PRIORITY> \n");
         return;
     }
     int pid = strToInt(argv[1]);
@@ -118,7 +119,7 @@ void nicePCS(int argc, char ** argv){
 //VER COMANDO
 void blockPCS(int argc, char ** argv){
     if(argc != 2){
-        printf("Invalid amount of arguments. Use: block <PID>\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: block <PID>\n");
         return;
     }
     int pid = strToInt(argv[1]);
@@ -128,7 +129,7 @@ void blockPCS(int argc, char ** argv){
 
 void unblockPCS(int argc, char ** argv){
     if(argc != 2){
-        printf("Invalid amount of arguments. Use: unblock <PID>\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: unblock <PID>\n");
         return;
     }
     int pid = strToInt(argv[1]);
@@ -142,7 +143,7 @@ void printSems(){
 void cat(int argc, char ** argv){
 
     if(argc != 1){
-        printf("Invalid amount of arguments. Use: cat\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: cat\n");
         return;
     }
     
@@ -156,7 +157,7 @@ void cat(int argc, char ** argv){
 void wc(int argc, char ** argv) {
     
     if(argc != -1) {
-        printf("Invalid amount of arguments. Use: wc\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: wc\n");
         return;
     }
     
@@ -175,7 +176,7 @@ void wc(int argc, char ** argv) {
 void filter(int argc, char ** argv){
     
     if(argc != -1){
-        printf("Invalid amount of arguments. Use: filter\n");
+        printf("Cantidad de parametros invalida. Metodo de uso: filter\n");
         return;
     }
     
@@ -204,7 +205,7 @@ void printPipes(){
 
 
 void philosopher(int argc, char ** argv){
-    philosopher(argc, argv);
+    start_philosopher(argc, argv);
 }
 
 void testMM(int argc, char ** argv){

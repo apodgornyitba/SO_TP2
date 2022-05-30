@@ -1,5 +1,3 @@
-// REALIZAR LA IMPLEMENTACION ?--> REALIZAR LAS MODIFICACIONES Y BUSCAR FUENTE (TODOS LO TIENEN IGUAL)
-
 // https://github.com/pchapin/tutorialpthread/blob/master/philosophers.c
 
 #include <phylo.h>
@@ -83,12 +81,12 @@ void start_philosopher(int argc, char *argv[])
 {
   problemRunning = 1;
   tableMutex = my_sem_open(MUTEX_ID, 1);
-  printf("Welcome to the Philosophers Problem!\n");
-  printf("You start with 4 philosophers and have a maximum of 8 philosophers.\n");
-  printf("You can add them with \'a\', delete them with \'d\' and exit the problem with \'q\'.\n");
-  printf("The state of each will be displayed as E (Eating) or . (HUNGRY)\n\n");
+  printf("Bienvenido al problema de los filosofos\n");
+  printf("El problema empieza con 4 filosofos y hay un maximo de 8 filosofos\n");
+  printf("Puedes agregarlos usando la tecla \'a\', sacarlos con la tecla \'d\' y salir con la tecla \'q\'.\n");
+  printf("El estado de cada uno se muestra como E (Comiendo o Eating) o . (Hambriento o Hungry)\n\n");
 
-  printf("Waiting for phylos...\n\n");
+  printf("Esperando por los filosofos...\n\n");
 
   sleep(5);
 
@@ -104,18 +102,18 @@ void start_philosopher(int argc, char *argv[])
     {
     case 'a':
       if (addPhilosopher() == -1)
-        printf("Can\'t add another philosopher. Maximum 8 philosophers.\n");
+        printf("No se puede agregar otro filosofo. Hay un maximo de 8 filosofos.\n");
       else
-        printf("A new philosopher joined!\n");
+        printf("Se unio un nuevo filosofo\n");
       break;
     case 'd':
       if (removePhilosopher() == -1)
-        printf("Can\'t remove another philosopher. Minimum 4 philosophers.\n");
+        printf("No se puede sacar otro filosofo. Hay un minimo de 4 filosofos.\n");
       else
-        printf("One philosopher has left!\n");
+        printf("Se saco un filosofo\n");
       break;
     case 'q':
-      printf("Program Finished!\n");
+      printf("Programa terminado\n");
       problemRunning = 0;
       break;
     default:

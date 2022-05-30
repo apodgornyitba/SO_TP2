@@ -43,7 +43,7 @@ void shellExecute() {
     }
 
     argc = getCommandArgs(input, argv);
-
+    
     if (argc == -1) {
       printf("\nIngreso argumentos de mas.\nLa maxima cantidad de argumentos permitida es: %d.\n\n",MAX_ARGUMENTS);
     }
@@ -62,9 +62,18 @@ void shellExecute() {
 
     int commandIdx = getCommandIdx(argv[0]);
 
+    // printf("\n%d\n", commandIdx);
+
     if (commandIdx >= 0) {
-      printf("%s\n", input);
-      my_create_process((void (*)(int, char **))commands[commandIdx].command, argc, (char **)argv, foreground, NULL);
+      my_create_process(commands[commandIdx].command, argc, (char **)argv, foreground, NULL);
+      // loop();
+      // write(2, "\n", 2);
+      // printPCS();
+      // write(2, "\n", 2);
+      // printf("myPID: %d\n", my_getpid());
+      // my_kill(my_getpid());
+      // printPCS();
+      // write(2, "\n", 2);
     } else {
       printf("\nComando invalido: use help\n");
     }
@@ -165,7 +174,7 @@ static int runPipeCmd(int argc, char **argv, int fdin, int fdout, int foreground
   fd[0] = fdin;
   fd[1] = fdout;
 
-  return my_create_process((void (*)(int, char **)) commands[commandIdx].command, argc, argv,foreground, fd);
+  return my_create_process(commands[commandIdx].command, argc, argv,foreground, fd);
 }
 
 static int getCommandIdx(char *command) {
