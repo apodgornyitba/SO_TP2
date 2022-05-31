@@ -11,7 +11,6 @@
 #define USERLAND_INIT_PID 1
 
 static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
-// static void shellExecute();
 static int getCommandIdx(char *command);
 static int findPipe(int argc, char **argv);
 static void initializePipe(int pipeIndex, int argc, char **argv);
@@ -31,7 +30,8 @@ void shellExecute() {
   int foreground;
 
   while (1) {
-    int argc;
+    printf("$ >   ");
+    int argc = 0;
     int pipeIndex;
     input[0] = 0;
     char *argv[MAX_ARGUMENTS] = {0};
@@ -41,7 +41,6 @@ void shellExecute() {
       printf("\nMaximo de caracteres permitidos para input: %d\n", BUFFER_SIZE - 1);
       continue;
     }
-
     argc = getCommandArgs(input, argv);
     
     if (argc == -1) {
@@ -62,37 +61,33 @@ void shellExecute() {
 
     int commandIdx = getCommandIdx(argv[0]);
 
-    // printf("\n%d\n", commandIdx);
-
     if (commandIdx >= 0) {
       my_create_process(commands[commandIdx].command, argc, (char **)argv, foreground, NULL);
-      // loop();
-      // write(2, "\n", 2);
-      // printPCS();
-      // write(2, "\n", 2);
-      // printf("myPID: %d\n", my_getpid());
-      // my_kill(my_getpid());
-      // printPCS();
-      // write(2, "\n", 2);
     } else {
       printf("\nComando invalido: use help\n");
     }
   }
 }
 
-static int getCommandArgs(char *input, char **argv) {
+static int getCommandArgs(char *input, char **argv)
+{
   int argc = 0;
 
-  if (*input != ' ' && *input != '\0') {
+  if (*input != ' ' && *input != '\0')
+  {
     argv[argc++] = input;
   }
 
-  while (*input != 0) {
-    if (*input == ' ') {
+  while (*input != '\0')
+  {
+    if (*input == ' ')
+    {
       *input = 0;
-      if ((*(input + 1) != ' ') && (*(input + 1) != 0)) {
-        if (argc >= MAX_ARGUMENTS) {
-          return -1;
+      if ((*(input + 1) != ' ') && (*(input + 1) != '\0'))
+      {
+        if (argc >= MAX_ARGUMENTS)
+        {
+          return argc;
         }
         argv[argc++] = input + 1;
       }

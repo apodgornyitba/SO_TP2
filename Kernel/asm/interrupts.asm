@@ -162,14 +162,13 @@ picSlaveMask:
 _irq00Handler:
 	;Realizamos el irq00Handler manualmente ya que queremos llamar al scheduler cada vez que se llama al timer tick
 	pushStateExtra
-
 	mov rdi, 0 ; pasaje de parametro
-	mov rsi, rsp ;pasaje de parametro
+	mov rsi, rsp
 	call irqDispatcher
 
-	;mov rdi, rsp
-	;call scheduler
-	;mov rsp, rax
+	mov rdi, rsp
+	call scheduler
+	mov rsp, rax
 
 	;signal pic EOI (End of Interrupt)
 	mov al, 20h
@@ -211,7 +210,6 @@ haltcpu:
 	hlt
 	ret
 
-;int 80h
 ;TODO: No necesita pushear states?
 _syscallHandler:
 	call syscallDispatcher

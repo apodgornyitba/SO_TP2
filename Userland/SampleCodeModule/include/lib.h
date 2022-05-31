@@ -3,6 +3,7 @@
 
 #define TIMER_STOP 0
 #define TIMER_START 1
+#define NULL (void *) 0
 
 int write(int fd, char* buffer, int length);
 int read(int fd, char *buffer, int length);

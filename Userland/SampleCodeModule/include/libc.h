@@ -3,6 +3,7 @@
 #ifndef LIB_C_H
 #define LIB_C_H
 
+
 #define BUFFER_SIZE 512
 #define SEC 0
 #define MIN 1

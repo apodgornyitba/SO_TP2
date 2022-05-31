@@ -201,19 +201,14 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
       if (entryPoint == NULL)
             return -1;
 
-	// sysWrite(2, (uint64_t)"\nHOLA5\n", 7, 0,0);
-
       Process *newProcess = my_malloc(sizeof(Process));
 
       if (newProcess == NULL){
-	      // sysWrite(2, (uint64_t)"\nHOLA6\n", 7, 0,0);
             return -1;
       }
 
       if (createPCB(&newProcess->pcb, argv[0], foreground, fd) == -1)
       {
-	      // sysWrite(2, (uint64_t)"\nHOLA7\n", 7, 0,0);
-
             my_free(newProcess);
 
             return -1;
@@ -221,8 +216,6 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
 
       char **argvCopy = my_malloc(sizeof(char *) * argc);
       if (argvCopy == 0){
-      	// sysWrite(2, (uint64_t)"\nHOLA8\n", 7, 0,0);
-
             return -1;
       }
       argsCopy(argvCopy, argv, argc);
@@ -235,10 +228,8 @@ int addProcess(void (*entryPoint)(int, char **), int argc, char **argv, int fore
       newProcess->state = READY;
       processQueue(newProcess);
       if (newProcess->pcb.foreground && newProcess->pcb.ppid){
-	      // sysWrite(2, (uint64_t)"\nHOLA9\n", 7, 0,0);
             blockProcess(newProcess->pcb.ppid);
       }
-	// sysWrite(2, (uint64_t)"\nHOLAFIN\n", 11, 0,0);
       return newProcess->pcb.pid;
 }
 
@@ -271,7 +262,7 @@ void *scheduler(void *oldRSP)
 
             currentProcess->pcb.rsp = oldRSP;
 
-            if (currentProcess->pcb.pid != baseProcess->pcb.pid) //idleProces should never be pushed into the queue
+            if (currentProcess->pcb.pid != baseProcess->pcb.pid) //baseProcess should never be pushed into the queue
             {
                   if (currentProcess->state == KILLED)
                   {

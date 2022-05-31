@@ -130,7 +130,8 @@ int scanf(const char *format, ...)
                     break;
                 case 's': //String hasta espacio
                     auxStr = (char *)va_arg(args, char *);
-                    strcpyTilSpace(auxStr,&buffer[bufferIdx]);
+                    // strcpyTilSpace(auxStr,&buffer[bufferIdx]);
+                    strcpy(auxStr, &buffer[bufferIdx]);
                     bufferIdx += strlen(auxStr);
                     break;
 

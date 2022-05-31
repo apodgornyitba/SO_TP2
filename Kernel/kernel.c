@@ -56,25 +56,7 @@ void * initializeKernelBinary()
 	};
 
 	loadModules(&endOfKernelBinary, moduleAddresses);
-
-
 	clearBSS(&bss, &endOfKernel - &bss);
-
-
-	//NUESTROS INITS
-	initVideo();
-	initKb();
-	load_idt();
-	memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	initScheduler();
-
-	char * argV[] = {"Shell init"};
-	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
-	// ncNewline();
-	// processDisplay();
-	// ncNewline();
-
-	_hlt();
 
 	return getStackBase();
 }
@@ -82,24 +64,21 @@ void * initializeKernelBinary()
 int main()
 {	
 	
-	((EntryPoint)sampleCodeModuleAddress)();
 	
-	// load_idt();
-	// initVideo();
-	// memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
-	// initScheduler();
-	// initKb();
+	initVideo();
+	initKb();
 
-	// sysWrite(2, (uint64_t)"\nHOLA3", 7, 0,0);
+	load_idt();
+	memInit((char *) sampleCodeModuleHeapAddress, HEAP_MEMORY_SIZE);
+	initScheduler();
 
-	// char * argV[] = {"Shell init"};
-	// addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
+	char * argV[] = {"Shell init"};
+	addProcess(sampleCodeModuleAddress, 1, argV, 1, 0);
 	
 
-	// _hlt();
+	_sti();
+	_hlt();
 
-
-	// sysWrite(2, (uint64_t)"\nHOLA4", 7, 0,0);
 
 
 	return 0;

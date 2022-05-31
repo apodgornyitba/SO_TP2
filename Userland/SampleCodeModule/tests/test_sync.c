@@ -1,7 +1,7 @@
 #include <stdint.h>
-#include <stdio.h>
 #include "test_util.h"
 #include "lib.h"
+#include <libc.h>
 
 #define SEM_ID "sem"
 #define TOTAL_PAIR_PROCESSES 2

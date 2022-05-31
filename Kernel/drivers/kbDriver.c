@@ -21,7 +21,7 @@
 #define TRUE 1
 #define FALSE 0
 
-char scanToAscii[58][2] = /* Array containing ascii codes for appropriate scan codes */
+char scanToAscii[59][2] = /* Array containing ascii codes for appropriate scan codes */
     {
         {0, 0},
         {ESC, ESC},
@@ -51,7 +51,7 @@ char scanToAscii[58][2] = /* Array containing ascii codes for appropriate scan c
         {'p', 'P'},
         {'[', '{'},
         {']', '}'},
-        {13, 13},
+        {'\n', '\n'},
         {0, 0},
         {'a', 'A'},
         {'s', 'S'},
@@ -63,7 +63,7 @@ char scanToAscii[58][2] = /* Array containing ascii codes for appropriate scan c
         {'k', 'K'},
         {'l', 'L'},
         {';', ':'},
-        {39, 34},
+        {'\'', '\"'},
         {'`', '~'},
         {0, 0},
         {'\\', '|'},
@@ -81,6 +81,7 @@ char scanToAscii[58][2] = /* Array containing ascii codes for appropriate scan c
         {0, 0},
         {0, 0},
         {' ', ' '},
+        {0, 0},
 };
 
 static char buffer[BUFF_SIZE] = {0};

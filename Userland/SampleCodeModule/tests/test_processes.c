@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <stdint.h>
 #include "test_util.h"
+#include <libc.h>
 #include "lib.h"
 //#include "libc.h"
 

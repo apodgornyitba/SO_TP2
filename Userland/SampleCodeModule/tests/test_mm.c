@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+// #include <stdlib.h>
+// #include <string.h>
 #include "test_util.h"
 #include "lib.h"
-//#include "libc.h" ?--> SE PUEDE USAR LA LIBRERIA O HAY QUE USAR NUESTRA IMPLEMENTACION
+#include "libc.h" //?--> SE PUEDE USAR LA LIBRERIA O HAY QUE USAR NUESTRA IMPLEMENTACION
 
 #define MAX_BLOCKS 128
-//#define MAX_MEMORY (32 * 1024 * 1024) ?--> CAMBIAR EL SATOI POR LA VARIABLE
 
 typedef struct MM_rq{
   void * address;
@@ -22,7 +20,9 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
 
   if (argc != 1) return -1;
 
-  if ((max_memory = satoi(argv[0])) <= 0) return -1;
+  if ((max_memory = satoi(argv[0])) <= 0) {
+    return -1;
+  }
 
   while (1){
     rq = 0;
@@ -43,8 +43,7 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
     uint32_t i;
     for (i = 0; i < rq; i++)
       if (mm_rqs[i].address){
-        // printf("test_mm SUCCESS SET\n");
-        memset(mm_rqs[i].address, i, mm_rqs[i].size);
+        memorySet(mm_rqs[i].address, i, mm_rqs[i].size);
       }
 
     // Check
@@ -58,7 +57,6 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
     // Free
     for (i = 0; i < rq; i++)
       if (mm_rqs[i].address) {
-        // printf("test_mm SUCCESS FREE\n");
         my_free(mm_rqs[i].address);
       }
   } 

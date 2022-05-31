@@ -22,18 +22,17 @@ void exceptionDispatcher(int exception,uint64_t rsp){
     if (exception == INVALID_OP_CODE)
         invalid_op_code();
     printRegisters(rsp);
-    // hold(10);
     sysWrite(2,(uint64_t)"\n",1,0,0);
     killProcess(getCurrPID());
     return;
 }
 
 static void zero_division() {
-	sysWrite(2,(uint64_t)"Excepcion 0: Division por cero\n",29,0,0);
+	sysWrite(2,(uint64_t)"Excepcion 0: Division por cero\n",32,0,0);
 }
 
 static void invalid_op_code() {
-	sysWrite(2,(uint64_t)"Excepcion 6: Operacion invalida\n",30,0,0);
+	sysWrite(2,(uint64_t)"Excepcion 6: Operacion invalida\n",33,0,0);
 }
 
 

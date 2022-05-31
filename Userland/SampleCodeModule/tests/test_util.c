@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <stdint.h>
+#include <libc.h>
 #include "lib.h"
 
 //Random
@@ -27,6 +27,16 @@ uint8_t memcheck(void *start, uint8_t value, uint32_t size){
       return 0;
 
   return 1;
+}
+
+void * memorySet(void *b, int c, int len){
+  unsigned char * p = b;
+  while(len > 0){
+    *p = c;
+    p++;
+    len--;
+  }
+  return(b);
 }
 
 //Parameters
@@ -61,10 +71,10 @@ void endless_loop(){
 }
 
 void endless_loop_print(uint64_t wait){
-  // int64_t pid = my_getpid();
+  int64_t pid = my_getpid();
 
-  // while(1){
-  //   printf("%d ",pid);
-  //   bussy_wait(wait);
-  // }
+  while(1){
+    printf("%d ",pid);
+    bussy_wait(wait);
+  }
 }
