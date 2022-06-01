@@ -233,7 +233,7 @@ char *strcpy(char *destination, const char *source)
                 continue;
         }
 
-        if(str[n] == 'n'){
+        if(str[n] == '-'){
             if(number){
                 number = -number;
                 break;

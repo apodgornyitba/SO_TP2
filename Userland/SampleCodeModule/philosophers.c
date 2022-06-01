@@ -4,8 +4,8 @@
 
 #define MAX_PHILOS 8
 #define BASE_PHILOS 4
-#define MUTEX_ID "999"
-#define BASE_SEM_ID "1000"
+#define MUTEX_ID 999
+#define BASE_SEM_ID 1000
 
 typedef enum
 {
@@ -25,7 +25,6 @@ Philosopher *philos[MAX_PHILOS];
 static int actualPhilosopherCount = 0;
 static int tableMutex;
 static int problemRunning;
-static char *tmpBuffer;
 
 #define RIGHT(i) ((i) + 1) % (actualPhilosopherCount)                         /* number of i’s right neighbor */
 #define LEFT(i) ((i) + actualPhilosopherCount - 1) % (actualPhilosopherCount) /* number of i’s left neighbor */
@@ -52,20 +51,20 @@ void philo(int argc, char *argv[])
 
 void takeForks(int i)
 {
-  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_wait(tableMutex);
   philos[i]->state = HUNGRY;
   test(i);
-  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
-  my_sem_wait(intToStr(philos[i]->sem, tmpBuffer, 10));
+  my_sem_post(tableMutex);
+  my_sem_wait(philos[i]->sem);
 }
 
 void placeForks(int i)
 {
-  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_wait(tableMutex);
   philos[i]->state = THINKING;
   test(LEFT(i));
   test(RIGHT(i));
-  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_post(tableMutex);
 }
 
 void test(int i)
@@ -73,7 +72,7 @@ void test(int i)
   if (philos[i]->state == HUNGRY && philos[LEFT(i)]->state != EATING && philos[RIGHT(i)]->state != EATING)
   {
     philos[i]->state = EATING;
-    my_sem_post(intToStr(philos[i]->sem, tmpBuffer, 10));
+    my_sem_post(philos[i]->sem);
   }
 }
 
@@ -123,7 +122,7 @@ void start_philosopher(int argc, char *argv[])
 
   for (int i = 0; i < actualPhilosopherCount; i++)
   {
-    my_sem_close(intToStr(philos[i]->sem, tmpBuffer, 10));
+    my_sem_close(philos[i]->sem);
     my_kill(philos[i]->pid);
     my_free(philos[i]);
   }
@@ -137,7 +136,7 @@ int addPhilosopher()
   if (actualPhilosopherCount == MAX_PHILOS)
     return -1;
 
-  my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_wait(tableMutex);
   Philosopher *auxPhilo = my_malloc(sizeof(Philosopher));
   if (auxPhilo == NULL)
     return -1;
@@ -147,7 +146,7 @@ int addPhilosopher()
   char *name[] = {"philosopher", intToStr(actualPhilosopherCount, buffer, 10)};
   auxPhilo->pid = my_create_process(&philo, 2, name, 0, NULL);
   philos[actualPhilosopherCount++] = auxPhilo;
-  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_post(tableMutex);
   return 0;
 }
 
@@ -160,10 +159,10 @@ int removePhilosopher()
 
   actualPhilosopherCount--;
   Philosopher *chosenPhilo = philos[actualPhilosopherCount];
-  my_sem_close(intToStr(chosenPhilo->sem, tmpBuffer, 10));
+  my_sem_close(chosenPhilo->sem);
   my_kill(chosenPhilo->pid);
   my_free(chosenPhilo);
-  my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+  my_sem_post(tableMutex);
 
   return 0;
 }
@@ -172,14 +171,14 @@ void printTable(int argc, char *argv[])
 {
   while (problemRunning)
   {
-    my_sem_wait(intToStr(tableMutex, tmpBuffer, 10));
+    my_sem_wait(tableMutex);
     for (int i = 0; i < actualPhilosopherCount; i++)
     {
       philos[i]->state == EATING ? putChar('E') : putChar('.');
       putChar(' ');
     }
     putChar('\n');
-    my_sem_post(intToStr(tableMutex, tmpBuffer, 10));
+    my_sem_post(tableMutex);
     my_yield();
   }
 }

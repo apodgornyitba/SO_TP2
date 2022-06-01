@@ -35,8 +35,8 @@ char *strcpyTilSpace(char *destination, const char *source);
 //IN: String que representa un numero, longitud del string
 //OUT: String convertido en integer
 int strToInt(char *str);
-//IN: Integer, buffer, base numerica a convertir
-//OUT: referencia al buffer
+//IN: buffer
+//OUT: integer
 char *intToStr(int num, char *str, int base);
 void clearBuff();
 //IN: Integer

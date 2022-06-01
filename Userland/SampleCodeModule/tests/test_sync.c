@@ -3,7 +3,7 @@
 #include "lib.h"
 #include <libc.h>
 
-#define SEM_ID "sem"
+#define SEM_ID 9
 #define TOTAL_PAIR_PROCESSES 2
 
 int64_t global;  //shared memory

@@ -4,6 +4,7 @@
 #include <lib.h>
 #include <syscalls.h>
 #include <screenDriver.h>
+#include <scheduler.h>
 
 //Resource: https://www.cs.umd.edu/~hollings/cs412/s98/project/proj1/index.html
 #define ESC 27 /* ASCII escape */
@@ -14,7 +15,9 @@
 #define RSHIFT_RELEASED 0xB6
 #define CAPSLOCK 0x3A
 #define CAPSLOCK_RELEASED 0xBA
-#define CTRL 0x1D
+#define CTRL_PRESSED 0x1D
+#define CTRL_RELEASED 0x9D
+
 #define BACKSPACE 8 /* Ascii codes for Backspace, Tab and enter keys.*/       
 #define ENTER_KEY 13
 
@@ -91,6 +94,7 @@ static int activeSize = 0; //Elementos legibles en el buffer
 
 static int isShifted = FALSE;
 static int capsEnabled = FALSE;
+static int left_ctrl = FALSE;
 
 void initKb(){
     isShifted = capsEnabled= FALSE;
@@ -115,17 +119,34 @@ void keyboardHandler(uint64_t rsp)
             capsEnabled = 1 - capsEnabled;
             return;
         }
-        if (keyCode == CTRL){
-            loadRegs((uint64_t*)rsp);
+        if (keyCode == CTRL_PRESSED){
+            left_ctrl = TRUE;
             return;
+        }
+        if (keyCode == CTRL_RELEASED){
+            left_ctrl = FALSE;
+            return;
+        }
+        if (left_ctrl){
+            if(scanToAscii[keyCode][0] == 'c'){
+                killFgProcess();
+                return;
+            }
+            else if(scanToAscii[keyCode][0] == 's'){
+                loadRegs((uint64_t*)rsp);
+                return;
+            }
         }
         if (keyCode >= 58 || keyCode & 0X80) //No tiene representacion ascii y no es una tecla levantandose
             return;
 
         int shiftState =  isShifted == capsEnabled ? 0:1; //Uno solo esta encendido
-        char c = scanToAscii[keyCode][shiftState];
+        
+        if(!left_ctrl){
+            char c = scanToAscii[keyCode][shiftState];
+            loadKey(c);
+        }
 
-        loadKey(c);
 
     }
 }

@@ -19,14 +19,14 @@ void getHelp() {
     printf("\n~ help: Informacion de comandos.\n");
     printf("~ time: Se imprime el tiempo y la fecha actual.\n");
     printf("~ clear: Se limpia la pantalla.\n");
-    printf("~ inforeg: Se imprimen los valores de los registros. Utilizar la tecla CTRL para actualizar los valores de los registros\n");
+    printf("~ inforeg: Se imprimen los valores de los registros. Utilizar la tecla CTRL + s para actualizar los valores de los registros\n");
     printf("~ divex: Para lanzar una excepcion por division por cero.\n");
     printf("~ opex: Para lanzar una excepcion por operador de codigo invalido.\n");
     //COMANDOS NUEVOS
-    printf("~ mem: Imprime memoria total, libre y ocupada.\n");
+    printf("~ mem: Imprime memoria total, libre y ocupada.\n"); //AREGLAR EL PRINT
     printf("~ ps: Imprime la lista de todos los proceso\n");
     printf("~ loop: Proceso loop que muestra current ID y un saludo\n");
-    printf("~ kill: Mata un proceso dado su ID\n");
+    printf("~ kill: Mata un proceso dado su ID. Usar CTRL + c para terminar un proceso\n");
     printf("~ nice: Cambia la prioridad de un proceso, dado su ID y el nuevo nivel de prioridad\n");
     printf("~ block: Bloquea un proceso dado su ID\n");
     printf("~ unblock: Desbloquea un proceso dado su ID\n");
@@ -40,7 +40,7 @@ void getHelp() {
     printf("~ test_mm: Testeo de Memory Manager. Metodo de uso: test_mm <MAX_MEMORY>\n");
     printf("~ test_prio: Testeo de prioridades\n");
     printf("~ test_processes: Testeo de procesos, scheduler y cambio de contexto\n");
-    printf("~ test_sync: Testeo de sincronizacion de procesos\n\n");
+    printf("~ test_sync: Testeo de sincronizacion de procesos\n");
 
 }
 
@@ -103,8 +103,9 @@ void killPCS(int argc, char ** argv){
         printf("Cantidad de parametros invalida. Metodo de uso: kill <PID>\n");
         return;
     }
-    //ARREGLAR STRTOINT PARA QUE RECIBA UN SOLO PARAMETRO
     int pid = strToInt(argv[1]);
+    // printf("ARGV EN KILL DE KERNEL: %c\n", *argv);
+    // printf("PID EN KILL DEL KERNEL: %d\n", pid);
     my_kill(pid);
 }
 
@@ -119,7 +120,6 @@ void nicePCS(int argc, char ** argv){
 }
 //VER COMANDO
 void blockPCS(int argc, char ** argv){
-    printf("arg: %d", argc);
     if(argc != 2){
         printf("Cantidad de parametros invalida. Metodo de uso: block <PID>\n");
         return;
@@ -139,6 +139,9 @@ void unblockPCS(int argc, char ** argv){
 }
 
 void printSems(){
+    // if((my_sem_open(8, 1)) == -1){
+    //     return;
+    // }
     my_print_sems();
     printf("\n\n");
 }
@@ -201,8 +204,17 @@ static int isVowel(char c){
 }
 
 void printPipes(){
+    // printf("Se abre y cierra un pipe con id 70 en forma de prueba\n\n");
+    // if(my_pipe_open(70) == -1){
+    //     return;
+    // }
+
     my_print_pipes();
     printf("\n\n");
+
+    // if(my_pipe_close(70) == -1){
+    //     return;
+    // }
 }
 
 

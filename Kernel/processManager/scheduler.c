@@ -91,6 +91,7 @@ uint64_t setNewState(uint64_t pid, State newState)
 
 uint64_t killProcess(uint64_t pid)
 {
+      // print("%s %d\n", "PID EN KILL:",pid);
       if (pid <= 2)
             return -1;
 
@@ -338,6 +339,7 @@ void printProcess(Process *process)
             sysWrite(2, (uint64_t)"\n", 2, 0, 0);
             print("\n%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
                   (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
+
 }
 
 void processDisplay()

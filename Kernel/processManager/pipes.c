@@ -6,7 +6,7 @@
 
 Pipe pipes[MAX_PIPES];
 
-int initialSemId = 1000;
+int initialSemId = 500;
 
 static int createPipe(int pipeId);
 static int pipeWriter(char c, int idx);
@@ -138,24 +138,31 @@ static int createPipe(int pipeId) {
 }
 
 void pipeStatus() {
-  char tmpBuffer[20];
-  sysWrite(2,(uint64_t) "Active Pipe Status\n", 20,0,0);
+  // char tmpBuffer[20];
+  // sysWrite(2,(uint64_t) "Active Pipe Status\n", 20,0,0);
+  print("%s", "Active Pipe Status\n");
   
   for (int i = 0; i < MAX_PIPES; i++) {
     Pipe pipe = pipes[i];
     if (pipe.state == IN_USE) {
-      sysWrite(2, (uint64_t)"\n     Pipe ID: ", 16, 0, 0);
-      sysWrite(2, (uint64_t) pipe.id, strlength(intToStr(pipe.id, tmpBuffer, 10)), 0, 0);
-      sysWrite(2, (uint64_t)"\n     Amount of attached processes: ",37, 0,0);
-      sysWrite(2, (uint64_t) pipe.totalProcesses, strlength(intToStr(pipe.totalProcesses, tmpBuffer, 10)), 0, 0);
-      sysWrite(2, (uint64_t)"\n     Read semaphore: ", 23,0,0);
-      sysWrite(2, (uint64_t) pipe.readLock, strlength(intToStr(pipe.readLock, tmpBuffer, 10)), 0, 0);
-      sysWrite(2, (uint64_t)"\n     Write semaphore: ", 23,0,0);
-      sysWrite(2, (uint64_t)  pipe.writeLock, strlength(intToStr(pipe.writeLock, tmpBuffer, 10)), 0, 0);
-      sysWrite(2, (uint64_t)"\n     Pipe buffer content: ",27,0,0);
+      // sysWrite(2, (uint64_t)"\n     Pipe ID: ", 16, 0, 0);
+      print("%s %d","\n     Pipe ID: ", pipe.id);
+      // sysWrite(2, (uint64_t) pipe.id, strlength(intToStr(pipe.id, tmpBuffer, 10)), 0, 0);
+      // sysWrite(2, (uint64_t)"\n     Amount of attached processes: ",37, 0,0);
+      print("%s %d", "\n     Amount of attached processes: ", pipe.totalProcesses);
+      // sysWrite(2, (uint64_t) pipe.totalProcesses, strlength(intToStr(pipe.totalProcesses, tmpBuffer, 10)), 0, 0);
+      // sysWrite(2, (uint64_t)"\n     Read semaphore: ", 23,0,0);
+      print("%s %d", "\n     Read semaphore: ", pipe.readLock);
+      // // sysWrite(2, (uint64_t) pipe.readLock, strlength(intToStr(pipe.readLock, tmpBuffer, 10)), 0, 0);
+      // sysWrite(2, (uint64_t)"\n     Write semaphore: ", 23,0,0);
+      print("%s %d", "\n     Write semaphore: ", pipe.writeLock);
+      // sysWrite(2, (uint64_t)  pipe.writeLock, strlength(intToStr(pipe.writeLock, tmpBuffer, 10)), 0, 0);
+      // sysWrite(2, (uint64_t)"\n     Pipe buffer content: ",27,0,0);
+      print("%s", "\n     Pipe buffer content: ");
       for (int i = pipe.readIndex; i != pipe.writeIndex;
            i = (i + 1) % PIPE_BUFFER_SIZE) {
-             sysWrite(2, (uint64_t) pipe.buffer[i], 1, 0, 0);
+             print("%c",  pipe.buffer[i]);
+            //  sysWrite(2, (uint64_t) pipe.buffer[i], 1, 0, 0);
       }
     }
   }

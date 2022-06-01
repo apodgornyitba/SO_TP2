@@ -41,7 +41,9 @@ void shellExecute() {
       printf("\nMaximo de caracteres permitidos para input: %d\n", BUFFER_SIZE - 1);
       continue;
     }
+    // printf("input: %s\n", input);
     argc = getCommandArgs(input, argv);
+    // printf("argc: %d\n", argc);
     
     if (argc == -1) {
       printf("\nIngreso argumentos de mas.\nLa maxima cantidad de argumentos permitida es: %d.\n\n",MAX_ARGUMENTS);
@@ -62,7 +64,7 @@ void shellExecute() {
     int commandIdx = getCommandIdx(argv[0]);
 
     if (commandIdx >= 0) {
-      my_create_process(commands[commandIdx].command, argc, (char **)argv, foreground, NULL);
+      my_create_process(commands[commandIdx].command, argc, argv, foreground, NULL);
     } else {
       printf("\nComando invalido: use help\n");
     }
@@ -90,6 +92,7 @@ static int getCommandArgs(char *input, char **argv)
           return argc;
         }
         argv[argc++] = input + 1;
+        // printf("argv: %c\n", *argv);
       }
     }
     input++;

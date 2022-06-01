@@ -94,20 +94,25 @@ int semClose(uint32_t id) {
   return 0;
 }
 
-void semStatus() {
-  sysWrite(2, (uint64_t) "Active Semaphore Status\n", 25, 0, 0);
-  Semaphore *sem = semaphores; 
-  char tmpBuffer[20];
-  while (sem) {
-    sysWrite(2, (uint64_t)"Semaphore ID: ", 15, 0, 0);
-    sysWrite(2, (uint64_t) sem->id, strlength(intToStr(sem->id, tmpBuffer, 10)), 0, 0);
-    sysWrite(2, (uint64_t)"\n     Value: ", 14, 0, 0);
-    sysWrite(2, (uint64_t) sem->value, strlength(intToStr(sem->value, tmpBuffer, 10)), 0, 0);
-    sysWrite(2, (uint64_t)"\n     Attached processes amount: ", 34, 0, 0);
-    sysWrite(2, (uint64_t) sem->listeningProcesses, strlength(intToStr(sem->listeningProcesses, tmpBuffer, 10)), 0, 0);
-    sysWrite(2, (uint64_t)"\n     Blocked processes amount: ", 33, 0, 0);
-    sysWrite(2, (uint64_t) sem->blockedProcessesAmount, strlength(intToStr(sem->blockedProcessesAmount, tmpBuffer, 10)), 0, 0);
-    sysWrite(2, (uint64_t)"\n     Blocked processes: ", 26, 0, 0);
+void semStatus()
+{
+  sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+  print("%s", "Active Semaphore Status");
+  // sysWrite(2, (uint64_t) "Active Semaphore Status\n", 25, 0, 0);
+  Semaphore *sem = semaphores;
+  while (sem)
+  {
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+    print("%s %d", "     Semaphore ID:", sem->id);
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+    print("%s %d", "     Value: ", sem->value);
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+    print("%s %d", "     Number of attached processes: ", sem->listeningProcesses);
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+    print("%s %d", "     Number of blocked processes: ", sem->blockedProcessesAmount);
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+    print("%s", "     Blocked processes:");
+    sysWrite(2, (uint64_t) "\n", 2, 0, 0);
     blockedProcessesDump(sem->blockedProcesses, sem->blockedProcessesAmount);
     sem = sem->next;
   }
