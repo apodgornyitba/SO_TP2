@@ -147,35 +147,45 @@ void printSems(){
 }
 
 void cat(int argc, char ** argv){
+    
 
     if(argc != 1){
         printf("Cantidad de parametros invalida. Metodo de uso: cat\n");
         return;
     }
     
-    int c;
-
-    while((c=getChar()) != -1){
-            putChar(c);
+    char c[2] = {0};
+    while(1){
+        c[0] = getChar();
+        // printf("HOLA\n");
+        putChar(c[0]);
+        c[0] = 0;
     }
 }
 
-void wc(int argc, char ** argv) {
-    
-    if(argc != 1) {
+void wc(int argc, char **argv)
+{
+
+    if (argc != 1)
+    {
         printf("Cantidad de parametros invalida. Metodo de uso: wc\n");
         return;
     }
-    
-    int c;
-    int count = 1;
 
-    while((c=getChar()) != -1){
-        putChar(c);
-        if((char) c == '\n')
+    int count = 1;
+    char c[2] = {0};
+
+    while (1)
+    {
+        c[0] = getChar();
+        putChar(c[0]);
+        if (c[0] == '\n')
+        {
             count++;
+        }
+        c[0] = 0;
     }
-    printf("\n Cantidad de lineas: %d\n", count);
+    printf("Cantidad de lineas: %d \n", count);
 }
 
 void filter(int argc, char ** argv){
@@ -185,11 +195,13 @@ void filter(int argc, char ** argv){
         return;
     }
     
-    int c;
-    while((c=getChar()) != -1){
-        if(!isVowel(c)){
-            putChar(c);
+    char c[2] = {0};
+    while(1){
+        c[0] = getChar();
+        if(!isVowel(c[0])){
+            putChar(c[0]);
         }
+        c[0] = 0;
     }
 }
 
@@ -227,7 +239,7 @@ void testMM(int argc, char ** argv){
         printf("Cantidad de parametros invalida. Metodo de uso: test_mm <MAX_MEMORY>\n");
         return;
     }
-     test_mm(1, argv);  //RECIBE ARGUMENTOS
+    test_mm(1, argv);  //RECIBE ARGUMENTOS
 }
 
 void testPrio(int argc, char ** argv){

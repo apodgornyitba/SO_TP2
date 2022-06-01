@@ -23,7 +23,6 @@ static list_t buckets[BUCKET_COUNT];
 static size_t bucket_limit;
 static list_t *base;
 static unsigned int buckets_amount;
-static unsigned long used_memory = 0;
 
 static void list_init(list_t *list) {
   list->prev = list;
@@ -151,8 +150,6 @@ void *my_malloc(unsigned long nbytes) {
     return NULL;
   }
 
-  used_memory += bytesNeeded;
-
   list_t *resultNode = list_pop(&buckets[availableBucket]);
 
   for (; idealBucket < availableBucket; availableBucket--) {
@@ -170,8 +167,6 @@ void my_free(void *block) {
     return;
   }
 
-  //FIX: USED MEMORY COUNT
-
   list_t *freeNode = (list_t *)block - 1;
 
   freeNode->free = 1;
@@ -183,7 +178,6 @@ void my_free(void *block) {
     freeNode = getAddress(freeNode);
     freeNode->bucket++;
     freeBuddy = getBuddy(freeNode);
-    used_memory -= (1 << (MIN_ALLOC_LOG2 + bucket));
   }
   
   list_push(&buckets[freeNode->bucket], freeNode);
@@ -191,21 +185,30 @@ void my_free(void *block) {
 
 void printMemState()
 {
-      char buffer[20];
-      sysWrite(2, (uint64_t) "Total Mem: ", 11, 0, 0);
-      intToHexa( MAX_ALLOC, buffer, 8);
-      sysWrite(2, (uint64_t) buffer, 20, 0, 0);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+    list_t *list, *aux;
+    uint32_t index = 0;
+    uint32_t availableSpace = 0;
+    print("%s", "Levels with free blocks:\n");
+    for (int i = buckets_amount - 1; i >= 0; i--)
+    {
+        list = &buckets[i];
+        if (!is_empty(list))
+        {
+            print("%s %d %s","    Bucket: ", i + MIN_ALLOC_LOG2, "\n");
+            print("%s %d %s", "    Free blocks of size: 2^", i + MIN_ALLOC_LOG2, "\n");
 
-      sysWrite(2, (uint64_t) "Used Mem: ", 10, 0, 0);
-      intToHexa( used_memory, buffer, 8);
-      sysWrite(2, (uint64_t) buffer, 20, 0, 0);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
-
-      sysWrite(2, (uint64_t) "Free Mem: ", 10, 0, 0);
-      intToHexa( MAX_ALLOC - used_memory, buffer, 8);
-      sysWrite(2, (uint64_t) buffer, 20, 0, 0);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+            for (aux = list->next, index = 1; aux != list; index++, aux = aux->next)
+            {
+                if (aux->free)
+                {
+                    print("%s %d %s","    Bucket number: ", index, "\n");
+                    print("%s", "    state: free\n\n");
+                    availableSpace += index * (1 << (MIN_ALLOC_LOG2 + i));
+                }
+            }
+        }
+    }
+    print("%s %d %s", "Available Space: ", availableSpace, "\n");
 }
 
 int log2(uint32_t n)

@@ -24,7 +24,6 @@ static Header *base;     /* lista vacia para iniciar */
 static Header *freep = NULL;      /* inicio de una lista libre */
 
 unsigned long totalUnits;
-unsigned long fbr = 0;
 
 void memInit(char *memBase, unsigned long memSize)
 {
@@ -32,7 +31,6 @@ void memInit(char *memBase, unsigned long memSize)
       freep = base = (Header *)memBase;
       freep->s.size = totalUnits;
       freep->s.ptr = freep;
-      fbr = freep->s.size;  //cuando toda la memoria esta libre
 }
 
 /* malloc: asignador de almacenamiento de proposito general */
@@ -65,7 +63,6 @@ void *my_malloc(unsigned long nbytes)
                   return NULL; /* nada libre */
                         
       }
-      fbr -= p->s.size;
 }
 
 /* free: coloca el bloque ap en la lista vacia */
@@ -81,9 +78,7 @@ void my_free(void* ap)
       
       if (bp < base || bp >= (base + totalUnits * sizeof(Header)))
             return;
-
-      fbr += p->s.size;
-      
+    
       for (p = freep; !(bp > p && bp < p->s.ptr); p = p->s.ptr){
             if (p >= p->s.ptr && (bp > p || bp < p->s.ptr)){
                   break;            /* libera bloque al inicio o al final */
@@ -109,18 +104,15 @@ void my_free(void* ap)
 
 void printMemState()
 {
-      char buffer[20];
-      intToHexa( totalUnits * sizeof(Header), buffer, 8);
-      print("%s %s", "Total Mem: ", buffer);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+      print("%s %x %s", "Total memory:        ", totalUnits * sizeof(Header), "\n\n");
+      if (freep == NULL)
+            print("%s", "    No free memory\n");
 
-      intToHexa( fbr, buffer, 8);
-      print("%s %s", "Used Mem:  ", buffer);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+      print("%s %x %s", "        Base:        ", (uint64_t)freep, "\n");
+      print("%s %x %s", "        Used memory: ", freep->s.size, "\n");
+      print("%s %x %s", "        Free memory: ", ((totalUnits * sizeof(Header)) - freep->s.size), "\n");
 
-      intToHexa( (totalUnits * sizeof(Header)) - fbr, buffer, 8);
-      print("%s %s", "Free Mem:  ", buffer);
-      sysWrite(2, (uint64_t) " Bytes\n", 8, 0, 0);
+      print("%s", "\n\n");
 }
 
 #endif
