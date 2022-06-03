@@ -135,7 +135,7 @@ static int argsCopy(char **buffer, char **argv, int argc)
       for (int i = 0; i < argc; i++)
       {
             buffer[i] = my_malloc(sizeof(char) * (strlength(argv[i]) + 1));
-            strcopy(argv[i], buffer[i]);
+            strcopy(buffer[i],argv[i]);
       }
       return 1;
 }

@@ -5,6 +5,7 @@
 #include <syscalls.h>
 #include <screenDriver.h>
 #include <scheduler.h>
+#include <semaphores.h>
 
 //Resource: https://www.cs.umd.edu/~hollings/cs412/s98/project/proj1/index.html
 #define ESC 27 /* ASCII escape */
@@ -17,6 +18,7 @@
 #define CAPSLOCK_RELEASED 0xBA
 #define CTRL_PRESSED 0x1D
 #define CTRL_RELEASED 0x9D
+
 
 #define BACKSPACE 8 /* Ascii codes for Backspace, Tab and enter keys.*/       
 #define ENTER_KEY 13

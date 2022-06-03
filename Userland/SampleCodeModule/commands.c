@@ -104,8 +104,6 @@ void killPCS(int argc, char ** argv){
         return;
     }
     int pid = strToInt(argv[1]);
-    // printf("ARGV EN KILL DE KERNEL: %c\n", *argv);
-    // printf("PID EN KILL DEL KERNEL: %d\n", pid);
     my_kill(pid);
 }
 
@@ -175,6 +173,8 @@ void wc(int argc, char **argv)
     int count = 1;
     char c[2] = {0};
 
+    // c = getChar();
+    printf("Linea: %d \n", count);
     while (1)
     {
         c[0] = getChar();
@@ -182,10 +182,10 @@ void wc(int argc, char **argv)
         if (c[0] == '\n')
         {
             count++;
+            printf("Linea: %d \n", count);
         }
         c[0] = 0;
     }
-    printf("Cantidad de lineas: %d \n", count);
 }
 
 void filter(int argc, char ** argv){

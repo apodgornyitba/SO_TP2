@@ -17,6 +17,8 @@ all: $(MODULE)
 
 $(MODULE): $(SOURCES) $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_TESTS) _loader.o
 	$(LD) -T sampleCodeModule.ld _loader.o $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_TESTS) -o ../$(MODULE)
+	$(LD) -T sampleCodeModule.ld --oformat=elf64-x86-64 _loader.o $(OBJECTS) $(OBJECTS_ASM) $(OBJECTS_TESTS) -o ../0000-sampleCodeModule.elf
+
 
 _loader.o:_loader.c
 	$(GCC) $(GCCFLAGS) -c _loader.c

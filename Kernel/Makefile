@@ -28,6 +28,7 @@ all: $(KERNEL)
 # $@ representa lo que previo a los :
 # $^ representa TODOS los prerrequisitos
 $(KERNEL): $(LOADEROBJECT) $(OBJECTS) $(STATICLIBS) $(OBJECTS_ASM) $(OBJECTS_DRIVERS) $(OBJECTS_IDT) $(OBJECTS_MM) $(OBJECTS_PM)
+	$(LD) $(LDFLAGS) -T kernel.ld --oformat=elf64-x86-64 -o kernel.elf $^
 	$(LD) $(LDFLAGS) -T kernel.ld -o $@ $^
 
 %.o: %.c
