@@ -3,6 +3,8 @@
 #include <scheduler.h>
 #include <semaphores.h>
 
+//LINK DE APOYO: https://eng.libretexts.org/Bookshelves/Computer_Science/Operating_Systems/Book%3A_Think_OS_-_A_Brief_Introduction_to_Operating_Systems_(Downey)/11%3A_Semaphores_in_C/11.03%3A_Make_your_own_semaphores
+
 Semaphore *semaphores;
 
 static Semaphore *getSemaphore(uint32_t id);
@@ -98,7 +100,6 @@ void semStatus()
 {
   sysWrite(2, (uint64_t) "\n", 2, 0, 0);
   print("%s", "Active Semaphore Status");
-  // sysWrite(2, (uint64_t) "Active Semaphore Status\n", 25, 0, 0);
   Semaphore *sem = semaphores;
   while (sem)
   {

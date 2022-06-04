@@ -1,6 +1,8 @@
 #include <scheduler.h>
 #include <lib.h>
 
+//LINK DE APOYO: https://www.geeksforgeeks.org/program-round-robin-scheduling-set-1/
+
 static uint64_t currentPID = 0;
 static ProcessList *processes;
 static Process *currentProcess;
@@ -20,7 +22,6 @@ static void processQueue(Process * newProcess)
       }
       else
       {
-            //FIX: LOS CASTEO DE STRUCT PROCESS
             processes->last->next = (struct Process *) newProcess;
             newProcess->next = NULL;
             processes->last = newProcess;
@@ -91,7 +92,6 @@ uint64_t setNewState(uint64_t pid, State newState)
 
 uint64_t killProcess(uint64_t pid)
 {
-      // print("%s %d\n", "PID EN KILL:",pid);
       if (pid <= 2)
             return -1;
 
