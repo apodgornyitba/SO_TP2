@@ -104,13 +104,24 @@ void my_free(void* ap)
 
 void printMemState()
 {
+      long long idx = 1;
+      Header *original, *current;
+      original = current = freep;
+      int flag = 1;
+
       print("%s %x %s", "Total memory:        ", totalUnits * sizeof(Header), "\n\n");
       if (freep == NULL)
             print("%s", "    No free memory\n");
-
-      print("%s %x %s", "        Base:        ", (uint64_t)freep, "\n");
-      print("%s %x %s", "        Used memory: ", freep->s.size, "\n");
-      print("%s %x %s", "        Free memory: ", ((totalUnits * sizeof(Header)) - freep->s.size), "\n");
+      while (current != original || flag)
+      {
+            flag = 0;
+            print("%s", "-------------------------------\n");
+            print("%s %x %s", "        Base:        ", (uint64_t)current, "\n");
+            print("%s %x %s", "        Free memory: ", (current->s.size), "\n");
+            print("%s", "-------------------------------\n");
+            current = current->s.ptr;
+            idx++;
+      }
 
       print("%s", "\n\n");
 }

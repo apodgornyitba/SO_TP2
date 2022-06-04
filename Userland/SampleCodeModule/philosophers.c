@@ -40,7 +40,6 @@ void printTable();
 void philo(int argc, char *argv[])
 {
   int idx = strToInt(argv[1]);
-  printf("\n%d\n", idx);
   while (problemRunning)
   {
     takeForks(idx);
@@ -88,21 +87,13 @@ void start_philosopher(int argc, char *argv[])
 
   printf("Esperando por los filosofos...\n\n");
 
-  // printf("me rompo aca1\n");
-
-  sleep(5);
-
-  // printf("me rompo aca2\n");
+  sleep(1);
 
   for (int i = 0; i < BASE_PHILOS; i++){
-    // printf("me rompo aca1\n");
 
     addPhilosopher();
-    
-    // printf("me rompo aca2\n");
 
   }
-  // printf("me rompo aca3\n");
 
   char *args[] = {"PrintTable"};
   int printTablePid = my_create_process(&printTable, 1, args, 0, NULL);

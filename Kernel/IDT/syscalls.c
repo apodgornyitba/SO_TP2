@@ -118,8 +118,7 @@ uint64_t sysTicks(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_
 
 uint64_t sysMalloc(uint64_t nbytes, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
 {
-  my_malloc((unsigned long)nbytes);
-  return 0;
+  return (uint64_t) my_malloc((unsigned long)nbytes);
 }
 
 uint64_t sysFree(uint64_t ap, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)

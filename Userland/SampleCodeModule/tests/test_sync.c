@@ -17,14 +17,14 @@ void slowInc(int64_t *p, int64_t inc){
 
 uint64_t my_process_inc(uint64_t argc, char *argv[]){
   uint64_t n;
-  uint8_t inc;
+  int8_t inc;
   int8_t use_sem;
 
-  if (argc != 3) return -1;
+  if (argc != 4) return -1;
 
-  if ((n = satoi(argv[0])) <= 0) return -1;
-  if ((inc = satoi(argv[1])) == 0) return -1;
-  if ((use_sem = satoi(argv[2])) < 0) return -1;
+  if ((n = satoi(argv[1])) <= 0) return -1;
+  if ((inc = satoi(argv[2])) == 0) return -1;
+  if ((use_sem = satoi(argv[3])) < 0) return -1;
 
   if (use_sem)
     if (!my_sem_open(SEM_ID, 1)){
@@ -64,7 +64,7 @@ uint64_t test_sync(uint64_t argc, char *argv[]){ //{n, use_sem, 0}
     my_wait(pids[i + TOTAL_PAIR_PROCESSES]);
   }
 
-  printf("Final value: %d\n");
+  printf("Final value: %d\n", global);
 
   return 0;
 }

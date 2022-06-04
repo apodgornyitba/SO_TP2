@@ -41,6 +41,9 @@ void getHelp() {
     printf("~ test_prio: Testeo de prioridades\n");
     printf("~ test_processes: Testeo de procesos, scheduler y cambio de contexto. Metodo de uso: test_processes <MAX_PROCESSES>\n");
     printf("~ test_sync: Testeo de sincronizacion de procesos\n");
+    printf(" Metodo de uso de test_sync: test_sync <n> <inc> <use_sem> - n: numero entero. use_sem: numero >= 0 \n");
+    printf(" si se quiere hacer un test_sync y numero < 0 para test_no_sync\n");
+
 
 }
 
@@ -258,11 +261,12 @@ void testPCS(int argc, char ** argv){
     test_processes(1, &argv[1]); 
 }
 void testSync(int argc, char ** argv){
-    if(argc != 2){
-        printf("Cantidad de parametros invalida. Metodo de uso: test_sync <MAX_PROCESSES>\n");
+    if(argc != 3){
+        printf("Cantidad de parametros invalida. Metodo de uso: test_sync <n> <use_sem>\n");
         return;
     }
-    test_sync(argc, argv);
+    char * argAux [2]={argv[1], argv[2]};
+    test_sync(2, argAux);
 }
 
 
