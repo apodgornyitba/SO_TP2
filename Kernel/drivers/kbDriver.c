@@ -19,7 +19,6 @@
 #define CTRL_PRESSED 0x1D
 #define CTRL_RELEASED 0x9D
 
-
 #define BACKSPACE 8 /* Ascii codes for Backspace, Tab and enter keys.*/       
 #define ENTER_KEY 13
 

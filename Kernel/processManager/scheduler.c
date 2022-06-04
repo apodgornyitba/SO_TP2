@@ -327,7 +327,7 @@ char *stateToStr(State state)
       case BLOCKED:
             return "B";
       default:
-            return "D";
+            return "K";
             break;
       };
 }
@@ -336,10 +336,11 @@ void printProcess(Process *process)
 {
 
       if (process != NULL)
-            sysWrite(2, (uint64_t)"\n", 2, 0, 0);
-            print("\n%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
-                  (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
-
+      {
+            sysWrite(2, (uint64_t) "\n", 2, 0, 0);
+      }
+      print("\n%d        %d        %x        %x        %s            %s\n", process->pcb.pid, (int)process->pcb.foreground,
+            (uint64_t)process->pcb.rsp, (uint64_t)process->pcb.rbp, stateToStr(process->state), process->pcb.name);
 }
 
 void processDisplay()

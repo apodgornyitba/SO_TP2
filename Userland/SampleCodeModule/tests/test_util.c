@@ -2,6 +2,9 @@
 #include <libc.h>
 #include "lib.h"
 
+#define MINOR_WAIT 1000000
+#define MAJOR_WAIT 10000000
+
 //Random
 static uint32_t m_z = 362436069;
 static uint32_t m_w = 521288629;
@@ -70,11 +73,11 @@ void endless_loop(){
   while(1);
 }
 
-void endless_loop_print(uint64_t wait){
+void endless_loop_print(int argc, char *argv[]){
   int64_t pid = my_getpid();
 
   while(1){
     printf("%d ",pid);
-    bussy_wait(wait);
+    bussy_wait(MINOR_WAIT);
   }
 }

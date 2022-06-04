@@ -24,6 +24,8 @@ uint64_t test_mm(uint64_t argc, char *argv[]){
     return -1;
   }
 
+  printf("\nComienzo del testeo de memory manager.\n");
+
   while (1){
     rq = 0;
     total = 0;

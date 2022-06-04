@@ -39,7 +39,7 @@ void getHelp() {
     printf("APARTADO DE TESTEOS:\n");
     printf("~ test_mm: Testeo de Memory Manager. Metodo de uso: test_mm <MAX_MEMORY>\n");
     printf("~ test_prio: Testeo de prioridades\n");
-    printf("~ test_processes: Testeo de procesos, scheduler y cambio de contexto\n");
+    printf("~ test_processes: Testeo de procesos, scheduler y cambio de contexto. Metodo de uso: test_processes <MAX_PROCESSES>\n");
     printf("~ test_sync: Testeo de sincronizacion de procesos\n");
 
 }
@@ -163,7 +163,7 @@ void cat(int argc, char ** argv){
 
 void wc(int argc, char **argv)
 {
-
+    
     if (argc != 1)
     {
         printf("Cantidad de parametros invalida. Metodo de uso: wc\n");
@@ -239,17 +239,29 @@ void testMM(int argc, char ** argv){
         printf("Cantidad de parametros invalida. Metodo de uso: test_mm <MAX_MEMORY>\n");
         return;
     }
-    test_mm(1, argv);  //RECIBE ARGUMENTOS
+    test_mm(1, &argv[1]);
 }
 
 void testPrio(int argc, char ** argv){
+    if(argc != 1){
+        printf("Cantidad de parametros invalida. Metodo de uso: test_prio\n");
+        return;
+    }
     test_prio();
 }
 
 void testPCS(int argc, char ** argv){
-    test_processes(1, (char **)10); //RECIBE ARGUMENTOS
+    if(argc != 2){
+        printf("Cantidad de parametros invalida. Metodo de uso: test_processes <MAX_PROCESSES>\n");
+        return;
+    }
+    test_processes(1, &argv[1]); 
 }
 void testSync(int argc, char ** argv){
+    if(argc != 2){
+        printf("Cantidad de parametros invalida. Metodo de uso: test_sync <MAX_PROCESSES>\n");
+        return;
+    }
     test_sync(argc, argv);
 }
 

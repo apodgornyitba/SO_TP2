@@ -76,5 +76,3 @@ Kernel/kernel.bin
 Userland/0000-sampleCodeModule.bin
 Userland/0001-sampleDataModule.bin
 .gdb_history
-Kernel/Makefile.inc
-Kernel/Makefile.inc
