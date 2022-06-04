@@ -2,9 +2,6 @@
 #include "test_util.h"
 #include <libc.h>
 #include "lib.h"
-//#include "libc.h"
-
-//?--> reemplazar satoi por variable maxima
 
 enum State {RUNNING, BLOCKED, KILLED};
 

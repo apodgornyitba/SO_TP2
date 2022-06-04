@@ -6,12 +6,7 @@
 #include <phylo.h>
 #include <tests.h>
 
-// #ifdef FREE_LIST
-#define MAX_MEMORY (96 * 1024 * 1024)
 static int isVowel(char c);
-// #else
-// #define MAX_MEMORY (32 * 1024 * 1024)
-// #endif
 
 static const char *registers[] = {"RAX:", "RBX:", "RCX:", "RDX:", "RBP:", "RDI:", "RSI:", "R8 :", "R9 :", "R10:", "R11:", "R12:", "R13:", "R14:", "R15:"};
 
@@ -119,7 +114,7 @@ void nicePCS(int argc, char ** argv){
     int prio = strToInt(argv[2]);
     my_nice(pid, prio);
 }
-//VER COMANDO
+
 void blockPCS(int argc, char ** argv){
     if(argc != 2){
         printf("Cantidad de parametros invalida. Metodo de uso: block <PID>\n");
@@ -140,16 +135,11 @@ void unblockPCS(int argc, char ** argv){
 }
 
 void printSems(){
-    // if((my_sem_open(8, 1)) == -1){
-    //     return;
-    // }
     my_print_sems();
     printf("\n\n");
 }
 
 void cat(int argc, char ** argv){
-    
-
     if(argc != 1){
         printf("Cantidad de parametros invalida. Metodo de uso: cat\n");
         return;
@@ -158,7 +148,6 @@ void cat(int argc, char ** argv){
     char c[2] = {0};
     while(1){
         c[0] = getChar();
-        // printf("HOLA\n");
         putChar(c[0]);
         c[0] = 0;
     }
@@ -176,7 +165,6 @@ void wc(int argc, char **argv)
     int count = 1;
     char c[2] = {0};
 
-    // c = getChar();
     printf("Linea: %d \n", count);
     while (1)
     {
@@ -219,17 +207,8 @@ static int isVowel(char c){
 }
 
 void printPipes(){
-    // printf("Se abre y cierra un pipe con id 70 en forma de prueba\n\n");
-    // if(my_pipe_open(70) == -1){
-    //     return;
-    // }
-
     my_print_pipes();
     printf("\n\n");
-
-    // if(my_pipe_close(70) == -1){
-    //     return;
-    // }
 }
 
 

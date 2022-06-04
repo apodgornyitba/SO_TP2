@@ -18,7 +18,6 @@ int _start() {
 
 }
 
-//?--> ES LA QUE HAY Q USAR EN LOS TESTS
 void * memset(void * destiation, int32_t c, uint64_t length) {
 	uint8_t chr = (uint8_t)c;
 	char * dst = (char*)destiation;

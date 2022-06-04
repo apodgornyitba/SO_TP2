@@ -7,8 +7,6 @@
 #define BUFFER_SIZE 512
 #define SEC 0
 #define MIN 1
-#define KEY_SEM_ID 8
-
 
 //IN: String, Parametros variables (formatos)
 //OUT: Longitud del string

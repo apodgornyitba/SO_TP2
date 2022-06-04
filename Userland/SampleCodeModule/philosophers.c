@@ -1,6 +1,6 @@
-// https://github.com/pchapin/tutorialpthread/blob/master/philosophers.c
-
 #include <phylo.h>
+
+//LINK DE APOYO: https://github.com/pchapin/tutorialpthread/blob/master/philosophers.c
 
 #define MAX_PHILOS 8
 #define BASE_PHILOS 4

@@ -1,8 +1,6 @@
-// #include <stdlib.h>
-// #include <string.h>
 #include "test_util.h"
 #include "lib.h"
-#include "libc.h" //?--> SE PUEDE USAR LA LIBRERIA O HAY QUE USAR NUESTRA IMPLEMENTACION
+#include "libc.h"
 
 #define MAX_BLOCKS 128
 

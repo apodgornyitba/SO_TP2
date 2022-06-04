@@ -4,6 +4,5 @@
 #define MAX_ARGUMENTS 5
 
 void startShell(int argc, char **argv);
-void shellExecute();
 
 #endif

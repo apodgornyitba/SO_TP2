@@ -2,6 +2,8 @@
 #include <lib.h>
 #include <semaphores.h>
 
+//LINK DE APOYO: https://toroid.org/unix-pipe-implementation
+
 #define MAX_PIPES 8
 
 Pipe pipes[MAX_PIPES];

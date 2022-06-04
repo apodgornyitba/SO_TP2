@@ -41,9 +41,7 @@ void shellExecute() {
       printf("\nMaximo de caracteres permitidos para input: %d\n", BUFFER_SIZE - 1);
       continue;
     }
-    // printf("input: %s\n", input);
     argc = getCommandArgs(input, argv);
-    // printf("argc: %d\n", argc);
     
     if (argc == -1) {
       printf("\nIngreso argumentos de mas.\nLa maxima cantidad de argumentos permitida es: %d.\n\n",MAX_ARGUMENTS);
@@ -92,7 +90,6 @@ static int getCommandArgs(char *input, char **argv)
           return argc;
         }
         argv[argc++] = input + 1;
-        // printf("argv: %c\n", *argv);
       }
     }
     input++;
