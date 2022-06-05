@@ -12,6 +12,7 @@
 
 static int getCommandArgs(char *userInput, char *argv[MAX_ARGUMENTS]);
 static int getCommandIdx(char *command);
+static void shellExecute();
 static int findPipe(int argc, char **argv);
 static void initializePipe(int pipeIndex, int argc, char **argv);
 static int handlePipe(int pipeIndex, int argc, char **argv);
@@ -25,7 +26,7 @@ void startShell(int argc, char **argv) {
   shellExecute();
 }
 
-void shellExecute() {
+static void shellExecute() {
   char input[BUFFER_SIZE] = {0};
   int foreground;
 

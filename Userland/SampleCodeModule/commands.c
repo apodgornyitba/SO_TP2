@@ -18,7 +18,7 @@ void getHelp() {
     printf("~ divex: Para lanzar una excepcion por division por cero.\n");
     printf("~ opex: Para lanzar una excepcion por operador de codigo invalido.\n");
     //COMANDOS NUEVOS
-    printf("~ mem: Imprime memoria total, libre y ocupada.\n"); //AREGLAR EL PRINT
+    printf("~ mem: Imprime memoria total, libre y ocupada.\n"); 
     printf("~ ps: Imprime la lista de todos los proceso\n");
     printf("~ loop: Proceso loop que muestra current ID y un saludo\n");
     printf("~ kill: Mata un proceso dado su ID. Usar CTRL + c para terminar un proceso\n");

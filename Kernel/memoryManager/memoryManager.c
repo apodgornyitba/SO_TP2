@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #ifdef FREE_MM
 
 // LAS FUNCIONES SON BASADAS DEL LIBRO (EL LENGUJAE DE PROGRAMACION C DE K&R)
