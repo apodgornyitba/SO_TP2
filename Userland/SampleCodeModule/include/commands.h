@@ -34,6 +34,8 @@ void testMM();
 void testPrio();
 void testPCS();
 void testSync();
+void writeSHM();
+void readSHM();
 
 
 
@@ -57,6 +59,8 @@ static Command commands[] = {
 	{&filter, "filter"},
 	{&printPipes, "pipe"},
 	{&philosopher, "phylo"},
+	{&writeSHM, "writeSHM"},
+	{&readSHM, "readSHM"},
     
 	{&testMM, "test_mm"},
 	{&testPrio, "test_prio"},

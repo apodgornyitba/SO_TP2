@@ -248,4 +248,26 @@ void testSync(int argc, char ** argv){
     test_sync(2, argAux);
 }
 
+void writeSHM(int argc, char** argv){
+    if(argc != 1){
+        printf("Error en SHM\n");
+    }
+    void * shm = my_create_shm(1);
+
+    char * string = "pepe";
+
+    strcpy((char *) shm, string);
+
+}
+
+void readSHM(int argc, char ** argv){
+    if(argc != 1){
+        printf("Error en read shm");
+    }
+
+    void * shm = my_create_shm(1);
+
+    printf("%s\n", (char *) shm);
+}
+
 

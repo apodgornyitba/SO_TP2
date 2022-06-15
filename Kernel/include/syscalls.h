@@ -34,6 +34,7 @@ uint64_t sysPipeClose(uint64_t pipe_id, uint64_t rdx, uint64_t rcx, uint64_t r8,
 uint64_t sysPipeRead(uint64_t pipe_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
 uint64_t sysPipeWrite(uint64_t pipe_id, uint64_t str, uint64_t rcx, uint64_t r8, uint64_t r9);
 uint64_t sysPrintPipe(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
+uint64_t sysCreateSHM(uint64_t shm_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9);
 
 
 uint64_t *getRegs();

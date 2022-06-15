@@ -38,6 +38,7 @@ int my_pipe_write(int pipe_id, char * str);
 int my_pipe_read(int pipe_id);
 int my_pipe_close(int pipe_id);
 int my_print_pipes();
+void * my_create_shm(unsigned int shm_id);
 
 
 #endif

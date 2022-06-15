@@ -37,6 +37,7 @@ static uint64_t (*systemCalls[])(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint6
     sysPipeRead, //28
     sysPipeWrite, //29
     sysPrintPipe, //30
+    sysCreateSHM, //31
     };
 
 uint64_t syscallDispatcher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)

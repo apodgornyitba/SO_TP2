@@ -13,6 +13,7 @@
 #include <scheduler.h>
 #include <pipes.h>
 #include <semaphores.h>
+#include <sharedMemory.h>
 
 #define STDIN 0
 #define STDOUT 1
@@ -233,4 +234,9 @@ uint64_t sysPrintPipe(uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uin
 {
   pipeStatus();
   return 0;
+}
+
+uint64_t sysCreateSHM(uint64_t shm_id, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9)
+{
+  return (uint64_t) createSHM(shm_id);
 }

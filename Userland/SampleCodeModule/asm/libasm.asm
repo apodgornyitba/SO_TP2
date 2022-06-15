@@ -37,6 +37,24 @@ GLOBAL my_pipe_write
 GLOBAL my_pipe_read
 GLOBAL my_print_pipes
 
+GLOBAL my_create_shm
+
+my_create_shm:
+    push rbp
+    mov rbp,rsp
+
+    push rdi
+    push rsi
+
+    mov rsi,rdi
+    mov rdi, 31
+    int 80h
+    
+    pop rsi
+    pop rdi
+    leave
+    ret
+
 
 ; read - lee de un fd determinado
 ; IN- RDI - FD
